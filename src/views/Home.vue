@@ -2,8 +2,15 @@
   <div class="home">
     <!-- 맨 윗  부분 (설명) -->
     <v-container>
+      <v-row>
+        <v-col>
+          <div class="text-h5 font-weight-bold blue-grey--text text--darken-2">
+            🧙‍♂️ Profile
+          </div>
+        </v-col>
+      </v-row>
       <v-row align="stretch">
-        <v-col cols="8">
+        <v-col cols="5">
           <profile/>
         </v-col>
         <v-col cols="4">
@@ -15,14 +22,29 @@
     <v-container>
       <v-row>
         <v-col>
-          <div class="text-h6 font-weight-bold blue-grey--text text--darken-2">
-            Challenges
+          <div class="text-h5 font-weight-bold blue-grey--text text--darken-2">
+            🏋️‍♂️ Challenges
           </div>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="4">
-          <challenge/>
+          <challenge 
+            :startTime='new Date("2020-10-18T00:00:00")'
+            :title='"2020 여름방학 스터디"'
+            :weeks='4'
+            :problems='38'
+            :users='5'
+          />
+        </v-col>
+        <v-col cols="4">
+          <challenge 
+            :startTime='new Date("2021-02-04T00:00:00")'
+            :title='"2021 신재영 생일"'
+            :weeks='4'
+            :problems='23'
+            :users='1'
+          />
         </v-col>
       </v-row>
     </v-container>

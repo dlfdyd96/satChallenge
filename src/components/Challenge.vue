@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card>
-      <v-card-title>{{title}}</v-card-title>
+      <v-card-title class="font-weight-bold d-flex justify-center">{{title}}</v-card-title>
       <v-list>
         <!-- 몇 주 -->
         <v-list-item>
@@ -14,7 +14,7 @@
               far fa-calendar-alt
             </v-icon>
           </v-list-item-avatar>
-          <v-list-item-title>{{weeks}} weeks</v-list-item-title>
+          <v-list-item-title class="text-h6 font-weight-regular">{{weeks}} weeks</v-list-item-title>
         </v-list-item>
         <!-- 몇 문제 -->
         <v-list-item>
@@ -27,7 +27,7 @@
               fas fa-puzzle-piece
             </v-icon>
           </v-list-item-avatar>
-          <v-list-item-title>{{problems}} problems</v-list-item-title>
+          <v-list-item-title class="text-h6 font-weight-regular">{{problems}} problems</v-list-item-title>
         </v-list-item>
         <!-- 몇 명 -->
         <v-list-item>
@@ -40,11 +40,13 @@
               fas fa-users
             </v-icon>
           </v-list-item-avatar>
-          <v-list-item-title>{{users}} challengers</v-list-item-title>
+          <v-list-item-title class="text-h6 font-weight-regular">{{users}} challengers</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-card-text>
-        <div>Status in : {{day}}d {{hour}}h {{min}}m {{sec}}s</div>
+        <div class="text-subtitle-1">Status in : 
+        </div>
+        <div class="black--text text-h5">{{day}}d {{hour}}h {{min}}m {{sec}}s</div>
         <div class="mt-5">
           <v-btn 
             width="100%"
@@ -61,9 +63,25 @@
 <script>
 export default {
   props: {
-    propName: {
+    startTime: {
+      type: Date,
+      default: new Date()
+    },
+    title : {
+      type: String,
+      default: 'this is title'
+    },
+    weeks : {
       type: Number,
-      default: 
+      default: 0
+    },
+    problems : {
+      type: Number,
+      default: 0
+    },
+    users : {
+      type: Number,
+      default: 0
     },
   },
   computed: {
@@ -86,17 +104,17 @@ export default {
   },
   data() {
     return {
-      title: '2020 여름방학 스터디',
-      weeks : 4,
-      problems : 30,
-      users : 5,
+      // title: '2020 여름방학 스터디',
+      // weeks : 4,
+      // problems : 30,
+      // users : 5,
       now : Date.now(),
-      startTime : null,
+      // startTime : null,
       timer : null,
     }
   },
   created () {
-    this.startTime = new Date('2021-02-04T00:00:00');
+    // this.startTime = new Date('2021-02-04T00:00:00');
   },
   watch : {
     endDate : {
