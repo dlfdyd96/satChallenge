@@ -1,10 +1,19 @@
 <template>
   <div class="login__root d-flex align-center justify-center">
-    <div class="login__container my-5 pa-15 rounded-lg">
+    <div class="login__container my-5 pa-5 rounded-lg">
       <v-form>
-        <div>
-          Email Address
-        </div>
+        <v-container>
+          <v-row>
+            <v-col>
+              <div>
+                Email Address
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+
+
+        
         <v-text-field 
           outlined class="mt-3" 
           v-model="email" 
@@ -78,8 +87,8 @@ export default {
   width: 100%;
 }
 .login__container {
-  width: 80%;
-  max-width: 800px;
+  width: 90%;
+  max-width: 700px;
   background-color: rgb(245, 245, 245);
 }
 </style>

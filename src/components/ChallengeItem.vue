@@ -50,6 +50,7 @@
         <div class="mt-5">
           <v-btn 
             width="100%"
+            to="/challenge/1"
           >
             Join
           </v-btn>

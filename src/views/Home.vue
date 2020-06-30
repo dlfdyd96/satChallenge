@@ -10,11 +10,12 @@
         </v-col>
       </v-row>
       <v-row align="stretch">
-        <v-col cols="5">
+        <v-col cols="12" sm="8">
           <profile/>
         </v-col>
-        <v-col cols="4">
-            <language v-if="languageComplete"/>
+        
+        <v-col  v-if="languageComplete" cols="4">
+            <language/>
         </v-col>
       </v-row>
     </v-container>
@@ -28,7 +29,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="4">
+        <v-col cols="12" sm="6" md="4">
           <challenge 
             :startTime='new Date("2020-10-18T00:00:00")'
             :title='"2020 여름방학 스터디"'
@@ -37,10 +38,10 @@
             :users='5'
           />
         </v-col>
-        <v-col cols="4">
+        <v-col cols="12" sm="6" md="4">
           <challenge 
-            :startTime='new Date("2021-02-04T00:00:00")'
-            :title='"2021 신재영 생일"'
+            :startTime="new Date('2021-02-04T00:00:00')"
+            :title="`2021 '신재영'씨 생일`"
             :weeks='4'
             :problems='23'
             :users='1'
@@ -55,7 +56,7 @@
 // @ is an alias to /src
 import Profile from '../components/Profile';
 import Language from '../components/Language';
-import Challenge from '../components/Challenge';
+import Challenge from '../components/ChallengeItem';
 
 export default {
   name: 'Home',

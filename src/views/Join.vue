@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-center justify-center">
-    <div class="login__container my-5 pa-15 rounded-lg">
-      <div class="d-flex justify-center text-h3 mb-15">
+    <div class="login__container my-5 pa-5 rounded-lg">
+      <div class="d-flex justify-center text-h3 mb-15 mt-7">
         JOIN
       </div>
       <v-form>
@@ -169,8 +169,8 @@ export default {
 
 <style scoped>
 .login__container {
-  width: 80%;
-  max-width: 800px;
+  width: 90%;
+  max-width: 700px;
   background-color: rgb(245, 245, 245);
 }
 i {
