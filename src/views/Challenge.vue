@@ -1,84 +1,93 @@
 <template>
   <div>
     <!-- title -->
-    <div class="challenge__title d-flex justify-center align-center text-h3 white--text">
-      {{title}}
+    <div class="challenge__title d-flex align-end">
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <div class="text-h4 font-weight-bold ml-4">{{title}}</div>
+          </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <v-col
+            cols="4"
+            v-for="(item, index) in descriptionItems"
+            :key="index"
+          >
+            <v-list-item>
+              <v-list-item-icon class="mx-1">
+                <v-icon>
+                  {{item.icon}}
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.text"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
-    <v-container class="items__container">
-      <!-- 3 item -->
-      <v-row>
-        <v-col 
-          cols="12"
-          sm="4"
-          v-for="(item, index) in descriptionItems"
-          :key="index"
-        >
-          <v-card>
-            <v-list>
-              <v-list-item>
-                <v-list-item-avatar 
-                  tile
-                  color="blue-grey lighten-1"
-                  class="rounded-lg"
+    <!-- Body -->
+    <div class="challenge__body d-flex justify-center">
+      <v-container class="white ma-5 mb-15 rounded-lg">
+        <!-- progress bar -->
+        <v-row>
+          <v-col>
+            <div class="text-h5 font-weight-bold blue-grey--text text--darken-2">
+              Progress
+            </div>
+            <!-- <v-subheader>10%</v-subheader> -->
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <div class="d-flex justify-center">
+              <v-progress-linear
+                rounded
+                value="10"
+                striped
+                height="15"
+              >
+              </v-progress-linear>
+            </div>
+          </v-col>
+        </v-row>
+        <!-- calendar -->
+        <v-row>
+          <v-col>
+            <div class="text-h5 font-weight-bold blue-grey--text text--darken-2 mt-5">
+              Calendar
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="6">
+            <div class="d-flex justify-center">
+                <!-- dialog -->
+                <!-- 달력 -->
+                <v-date-picker
+                  v-model="picker"
+                  landscape
+                  full-width
+                  show-current
+                  @click:date="clickDate"
+                  :events="functionEvents"
+                  next-icon="fas fa-chevron-right"
+                  prev-icon="fas fa-chevron-left"
                 >
-                  <v-icon color="white">
-                    {{item.icon}}
-                  </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{item.subTitle}}</v-list-item-subtitle>
-                  <v-list-item-title 
-                    class="text-h6 font-weight-regular"
-                  >
-                    {{item.text}}
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
-      </v-row>
-      <!-- 설명 -->
-      <v-row class="mt-15">
-        <!-- 이렇게 공부합니다. -->
-        <v-col cols="12">
-          <div class="d-flex justify-center text-h4 font-weight-bold">
-            이렇게 공부합니다
-          </div>
-        </v-col>
-      </v-row>
-      <!-- items -->
-      <v-row>
-        <v-col cols="12" sm="4">
-          <div class="d-flex justify-center ma-5">
-            <v-icon class="green pa-2 rounded-lg white--text" size="40">
-              far fa-calendar
-            </v-icon>
-          </div>
-          <div class="d-flex justify-center">
-            진도표
-            <!-- 100% 완주를 위한 진도표를 보면서 강의를 시청합니다 -->
-          </div>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <div class="d-flex justify-center ma-5">
-            <v-icon class="green pa-2 rounded-lg white--text" size="40">
-              fas fa-comment
-            </v-icon>
-          </div>
-          <div class="d-flex justify-center">매일 아침 6시 카톡</div>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <div class="d-flex justify-center ma-5">
-            <v-icon class="green pa-2 rounded-lg white--text" size="40">
-              fas fa-check-square
-            </v-icon>
-          </div>
-          <div class="d-flex justify-center">코딩 챌린지</div>
-        </v-col>
-      </v-row>
-
-    </v-container>
+                </v-date-picker>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6">
+            <div>
+              
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -106,11 +115,44 @@ export default {
           text : '8 challengers',
           subTitle : '참여자',
         },
-      ]
+      ],
+
+
+      picker : new Date().toISOString().substr(0, 10),
+      schedule : {
+        date : [
+          2, 3, 6, 7, 9, 10, 13, 14, 16, 17, 
+        ],
+        complete : [
+          2,
+        ],
+      }
     }
   },
   created () {
     console.log(this.$route.params.id);
+  },
+  computed: {
+    functionEvents () {
+      return this.dateFunctionEvents;
+    }
+  },
+  methods: {
+    dateFunctionEvents (date) { // 날짜 하나하나 다 검사하는 거네...
+      const [,, day] = date.split('-')
+      // console.log(date)
+      if (this.schedule.date.includes(parseInt(day, 10))) 
+        if (this.schedule.complete.includes(parseInt(day, 10)))
+          return 'green'
+        else
+          return 'yellow'
+      // if ([1, 19, 22].includes(parseInt(day, 10))) return ['red', '#00f']
+      return false
+
+    },
+    clickDate(date) {
+      console.log(`클릭 했다. ${date}`);
+    }
   },
 }
 </script>
@@ -119,9 +161,14 @@ export default {
 .challenge__title {
   height: 250px;
   width: 100%;
-  background-color: green;
+  /* background-color: lightgrey; */
 }
 .items__container {
   margin-top: -50px;
+}
+
+.challenge__body{
+  background-color: lightgrey;
+  
 }
 </style>
