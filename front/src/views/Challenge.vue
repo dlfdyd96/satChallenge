@@ -213,7 +213,7 @@ export default {
       picker : new Date().toISOString().substr(0, 10),
       schedule : {
         date : [
-          2, 3, 6, 7, 9, 10, 13, 14, 16, 17, 
+          2, 3, 6, 7, 9, 10, 13, 14, 16, 17,
         ],
         complete : [
           2,
@@ -228,13 +228,11 @@ export default {
           {
             title : 'A+B',
             url : 'https://www.acmicpc.net/problem/1000',
-            submit : '',
           },
           {
             title : 'A-B',
             url : 'https://www.acmicpc.net/problem/1001',
-            submit : '',
-          }
+          },
         ]
       },
 
@@ -264,7 +262,7 @@ export default {
     },
     clickDate(date) {
       // console.log(`클릭 했다. ${date}`);
-      const [,,day] = date.split('-');
+      const [,, day] = date.split('-');
       this.selectedItem.day = this.schedule.date.indexOf(parseInt(day, 10)) + 1;
       if(this.schedule.date.includes(parseInt(day, 10)))  // 일정 된 날만 dialog On
         this.dialog = true;
