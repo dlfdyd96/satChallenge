@@ -1,10 +1,8 @@
 <template>
   <v-app>
-    <div>
-      <app-bar></app-bar>
-    </div>
+    <app-bar></app-bar>
 
-    <v-content>
+    <v-content class="root">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -29,5 +27,8 @@ export default {
 <style>
 a {
   text-decoration : none;
+}
+.root {
+  background-color: rgb(240, 240, 240);
 }
 </style>

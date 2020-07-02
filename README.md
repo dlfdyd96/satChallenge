@@ -1,4 +1,12 @@
-# challenge_algorithm
+# SAT - Algorithm Challenge
+### 알고리즘 스터디 사이트
 
-## CountDown
-- 참고자료 : [CountDown](https://stackoverflow.com/questions/55773602/how-do-i-create-a-simple-10-seconds-countdown-in-vue-js)
+## Front
+- Vue.js (Vuex, vue-cli, vue-router)
+- Vuetify
+
+## Back
+- Node.js
+- Express
+- MongoDB
+- Amazon S3
