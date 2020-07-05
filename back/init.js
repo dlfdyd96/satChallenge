@@ -1,8 +1,9 @@
-import app from './app.js';
+import dotenv from 'dotenv';
+
 import './db.js';
+import app from './app.js';
 
 // Environment Variables
-import dotenv from 'dotenv';
 dotenv.config();
 
 // Models

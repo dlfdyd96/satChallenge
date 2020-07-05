@@ -13,10 +13,6 @@ const challengeSchema = new mongoose.Schema({
     type : Number,
     required : "Problems are required"
   },
-  challengers : {
-    type : Number,
-    required : "Challengers is required"
-  },
   startedAt : {
     type: Date,
     default : Date.now
@@ -34,10 +30,16 @@ const challengeSchema = new mongoose.Schema({
       ref : "Quiz"
     }
   ],
-  // author : {
-  //   type : mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  // },
+  author : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  challengers : [
+    {
+      type : mongoose.Schema.Types.ObjectId,
+      ref : "User"
+    }
+  ],
 });
 
 const model = mongoose.model("Challenge", challengeSchema);

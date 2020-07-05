@@ -4,7 +4,10 @@
       <div class="d-flex justify-center text-h3 mb-15 mt-7">
         JOIN
       </div>
-      <v-form>
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <div>
           * Email Address
         </div>
@@ -27,7 +30,7 @@
         </div>
         <v-text-field 
           outlined class="mt-3" 
-          v-model="passwordValidation" 
+          v-model="password2" 
           :rules="[ rules.required ]"
           type="password"
           background-color="white"></v-text-field>
@@ -45,7 +48,7 @@
         <v-text-field 
           outlined class="mt-3" 
           v-model="baekjoon" 
-          :rules="[ rules.required, rules.email ]"
+          
           background-color="white"></v-text-field>
         <div>
           Language (주로 쓰는 언어)
@@ -53,7 +56,6 @@
 
 
         <v-item-group
-          multiple
           v-model="selected"
         >
           <v-container>
@@ -67,16 +69,16 @@
               >
                 <v-item v-slot:default="{active, toggle}">
                   <v-btn
+                    class="pa-0"
                     fab
                     depressed
-                    outlined
                     x-large
-                    :color="active ? 'orange' : 'black'"
+                    :color="active ? 'orange' : ''"
                     @click="toggle"
                   >
-                    <v-icon>
-                      {{ item.icon }}
-                    </v-icon>
+                    <v-avatar >
+                      <v-img :src="require(`../assets/${item.name}.png`)" :alt="item.name"></v-img>
+                    </v-avatar>
                   </v-btn>
                 </v-item>
               </v-col>
@@ -105,19 +107,46 @@
 </template>
 
 <script>
+import axios from 'axios'
+import dotenv from 'dotenv'
+
 export default {
   methods: {
     handleSubmit() {
-      this.selected.sort(); // 정렬해주고
+      // this.selected.sort(); // 정렬해주고
 
-      let selectedLanguage = [];
+      // let selectedLanguage = [];
 
-      this.selected.forEach(element => {
-        let elementName = this.icons[parseInt(element)].name;
-        selectedLanguage.push(elementName);
-      });
+      // this.selected.forEach(element => {
+      //   let elementName = this.icons[parseInt(element)].name;
+      //   selectedLanguage.push(elementName);
+      // });
       
-      console.log(selectedLanguage);
+      // console.log(selectedLanguage);
+      // console.log(this.icons[this.selected].name)
+
+      // console.log(process.env.VUE_APP_SERVER_DOMAIN);
+      this.$refs.form.validate()
+      
+      if(!this.valid) {
+        return;
+      }
+      const user = {
+        email : this.email,
+        password : this.password,
+        password2 : this.password2,
+        name : this.name,
+        backjoon : this.backjoon,
+        representLng : this.icons[this.selected].name
+      }
+
+      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/join`, user)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
   data() {
@@ -125,33 +154,34 @@ export default {
       icons : [
         {
           name : 'cpp',
-          icon : 'C++'
+          icon : '../assets/cpp.png'
         },
         {
           name : 'c',
-          icon : 'C'
+          icon : '../assets/c.png'
         },
         {
           name : 'python',
-          icon : 'fab fa-python'
+          icon : '../assets/python.png'
         },
         {
           name : 'java',
-          icon : 'fab fa-java'
+          icon : '../assets/java.png'
         },
         {
           name : 'js',
-          icon : 'fab fa-js'
+          icon : '../assets/js.png'
         },
-        {
-          name : 'etc',
-          icon : 'etc'
-        }
+        // {
+        //   name : 'etc',
+        //   icon : '../assets/etc'
+        // }
       ],
+      valid:true,
       email: '',
       selected: '',
       password : '',
-      passwordValidation : '',
+      password2 : '',
       name : '',
       baekjoon : '',
       rules : {
@@ -162,6 +192,9 @@ export default {
         }
       }
     }
+  },
+  created () {
+    dotenv.config();
   },
 
 }

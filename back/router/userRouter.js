@@ -6,11 +6,14 @@ import { postJoin, postLogin, getLogout, getMe } from '../controller/userControl
 
 const globalRouter = express.Router();
 
-// [post] api/join
-globalRouter.post(routes.join, /*onlyPublic,*/ postJoin);
+// [post] api/
+globalRouter.post(routes.join, onlyPublic, postJoin);
 
 // [post] api/login
-globalRouter.post(routes.login, /*onlyPublic,*/ postLogin);
+globalRouter.post(routes.login, onlyPublic, postLogin);
+
+// [get] api/changePassword
+globalRouter.get(routes.me, getMe)
 
 // [get] api/challenges
 globalRouter.get(routes.challenges, getAllChallenges);

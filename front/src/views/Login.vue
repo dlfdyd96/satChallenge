@@ -64,6 +64,8 @@
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
   data() {
     return{
@@ -76,6 +78,13 @@ export default {
             return pattern.test(value) || "Invalid e-mail."
         }
       }
+    }
+  },
+  methods: {
+    onSubmit(email, password) {
+      this.$store.dispatch('LOGIN', {email, password})
+        .then(() => this.redirect())
+        .catch(({message}) => window.alert(message))
     }
   },
 }
