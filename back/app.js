@@ -1,14 +1,15 @@
 import express from 'express'
-// import bodyParser from 'body-parser'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
+import morgan from 'morgan'
 
 import './passport.js'
+
 import globalRouter from './router/globalRouter.js'
-// import userRouter from './routers/UserRouter.js'
-// import itineraryRouter from './routers/ItineraryRouter.js'
-import morgan from 'morgan'
+import userRouter from './router/UserRouter.js'
+import challengeRouter from './router/challengeRouter.js'
+import quizRouter from './router/quizRouter.js'
 
 
 const app = express()
@@ -23,9 +24,9 @@ app.use(cors())
 app.use(passport.initialize())
 
 app.use('/' , globalRouter)
-// app.use('/user', userRouter)
-// app.use('/itinerary', itineraryRouter)
-
+app.use('/user', userRouter)
+app.use('/challenge', challengeRouter)
+app.use('/quiz', quizRouter)
 
 
 export default app;

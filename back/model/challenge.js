@@ -30,7 +30,7 @@ const challengeSchema = new mongoose.Schema({
       ref : "Quiz"
     }
   ],
-  author : {
+  creator : {
     type : mongoose.Schema.Types.ObjectId,
     ref: "User",
   },

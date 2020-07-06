@@ -135,9 +135,9 @@ export default {
         email : this.email,
         password : this.password,
         password2 : this.password2,
-        name : this.name,
+        username : this.name,
         backjoon : this.backjoon,
-        representLng : this.icons[this.selected].name
+        representLang : this.icons[this.selected].name
       }
 
       axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/join`, user)

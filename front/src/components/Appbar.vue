@@ -33,16 +33,30 @@
         <v-btn text class="white--text mx-2 text-md-h5 text-sm-h6 text-h6" large>
           FAQ
         </v-btn>
-
+        <!-- Login -->
         <v-btn 
           rounded color="orange" class="white--text text-md-h5 text-sm-h6 text-h6" large
-          to="login"
+          to="/login"
+          v-if="!isAuthenticated"
         >
           <v-icon class="mr-2">
             fas fa-sign-in-alt
           </v-icon>
           <span>
             Login
+          </span>
+        </v-btn>
+        <!-- Logout -->
+        <v-btn
+          v-else
+          rounded color="orange" class="white--text text-md-h5 text-sm-h6 text-h6" large
+          @click.prevent="onClickLogout"
+        >
+          <v-icon class="mr-2">
+            fas fa-sign-out-alt
+          </v-icon>
+          <span>
+            LOGOUT
           </span>
         </v-btn>
       </div>
@@ -77,6 +91,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -108,6 +124,16 @@ export default {
   watch: {
     group() {
       this.drawer = false;
+    }
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(['LOGOUT']),
+    onClickLogout() {
+      this.LOGOUT();
+      this.$router.push('/login')
     }
   },
 }

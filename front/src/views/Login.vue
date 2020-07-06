@@ -31,7 +31,12 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="6">
-              <v-btn width="100%" color="orange" class="white--text">Log in</v-btn>
+              <v-btn 
+                width="100%" 
+                color="orange" 
+                class="white--text"
+                @click="onSubmit(email, password)"
+              >Log in</v-btn>
             </v-col>
             <v-col cols="12" sm="6">
               <v-btn width="100%" to="/join">Join</v-btn>
@@ -84,7 +89,11 @@ export default {
     onSubmit(email, password) {
       this.$store.dispatch('LOGIN', {email, password})
         .then(() => this.redirect())
-        .catch(({message}) => window.alert(message))
+        // .catch((err) => console.dir(err))
+        .catch((err) =>console.dir(err))
+    },
+    redirect() {
+      this.$router.push({name: 'Home'})
     }
   },
 }

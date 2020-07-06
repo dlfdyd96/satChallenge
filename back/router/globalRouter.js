@@ -12,8 +12,6 @@ globalRouter.post(routes.join, /*onlyPublic,*/ postJoin);
 // [post] api/login
 globalRouter.post(routes.login, /*onlyPublic,*/ postLogin);
 
-// [get] api/challenges
-globalRouter.get(routes.challenges, getAllChallenges);
 
 
 

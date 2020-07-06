@@ -21,6 +21,14 @@ const quizSchema = new mongoose.Schema({
     type: String,
     required : "Description is required",
   },
+  challenge : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref : "Challenge"
+  },
+  creator : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref : "User"
+  },
 });
 
 const model = mongoose.model("Quiz", quizSchema);

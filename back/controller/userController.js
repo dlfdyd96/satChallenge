@@ -10,7 +10,7 @@ export const postJoin = async (req, res, next) => {
       password,
       password2,
       email,
-      name,
+      username,
       representLang
     }
   } = req;
@@ -19,7 +19,7 @@ export const postJoin = async (req, res, next) => {
     res.status(401).send({ status: 401, message: msg });
   }
   // User 이미 존재하면 미리다 체크해줌.
-  const user = new User({ email, name, representLang });
+  const user = new User({ email, username, representLang });
   try {
     await User.register(user, password);
     // res.status(200).send('join success');
@@ -31,9 +31,9 @@ export const postJoin = async (req, res, next) => {
 
     let msg = "회원 가입을 할 수 없습니다.";
 
-    if (err.name.indexOf("UserExistsError") > -1)
+    if (err.email.indexOf("UserExistsError") > -1)
       msg = "가입한 사용자가 존재 합니다."
-    else if (err.name.indexOf("ValidationError") > -1)
+    else if (err.email.indexOf("ValidationError") > -1)
       msg = "이메일 형식을 입력하세요."
 
     res.status(401).send({ status: 401, message: msg });
@@ -83,6 +83,31 @@ export const verifyUser = async (jwt_payload, done) => {
       console.log(err);
       return done(err);
     })
+}
+
+export const getMe = (req, res, next) => {
+  res.status(200).json(req.user)
+}
+
+// User Detail
+export const getUserDetail = async (req, res, next) => {
+  const {
+      params : { id }
+  } = req;
+  try {
+      const user = await User.findOne({_id : id});
+      // const itinerary = await Itinerary.find({creator : id})
+      res.status(200).json({
+          message : "Success get User Detail",
+          user,
+          // itinerary
+      })
+  } catch(err) {
+      console.log(`Get User Detail Error \n ${err}`);
+      res.status(400).send({
+          error : "Failed to get user Detail"
+      })
+  }
 }
 
 /*
@@ -141,16 +166,16 @@ export const postEditProfile = async (req, res) => {
 
     const updateUser = await User.findOneAndUpdate(
       { _id: req.user._id },
-      { ...body }
+      body // 이름, representLang
     );
     res.status(200).json({
       message: 'Sucess to Update Profile',
-      user: {
-        _id: updateUser._id,
-        email: updateUser.email,
-        name: updateUser.name,
-        representLang : updateUser.representLang
-      }
+      // user: {
+      //   _id: updateUser._id,
+      //   email: updateUser.email,
+      //   username: updateUser.username,
+      //   representLang : updateUser.representLang
+      // }
     });
   } catch (error) {
     res.status(400).send({
@@ -158,3 +183,4 @@ export const postEditProfile = async (req, res) => {
     });
   }
 };
+

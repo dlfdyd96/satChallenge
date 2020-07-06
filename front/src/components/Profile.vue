@@ -9,19 +9,18 @@
         inactive
       >
         <v-list-item-avatar
-          color="black"
           size="62"
         >
-          <v-icon color="yellow" x-large>
-            fab fa-js
-          </v-icon>
+            <v-img 
+              v-if="representLang"
+            :src="require(`../assets/${representLang}.png`)" :alt="representLang"></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="text-h5">
             {{name}}
           </v-list-item-title>
           <v-list-item-subtitle class="text-subtitle-1">
-            @{{email}}
+            {{email}}
           </v-list-item-subtitle>
           <v-list-item-subtitle>
             <router-link to="#">Edit Profile</router-link>
@@ -33,12 +32,28 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      name: 'Hwang Il Yong',
-      email : '1yongs_@naver.com'
+      name: undefined,
+      email : undefined,
+      representLang : null
     }
+  },
+  created () {
+    axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/user/me`)
+    .then(({data}) => {
+      console.log(data)
+      this.name = data.username;
+      this.email = data.email;
+      this.representLang = data.representLang;
+    })
+    .catch((err) => console.log(err))
+  },
+  methods: {
+
   },
 }
 </script>

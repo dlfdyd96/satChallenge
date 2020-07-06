@@ -1,23 +1,38 @@
-import routes from '../routes.js';
-import express from 'express';
-import { getAllChallenges } from '../controller/challengeController.js';
-import { onlyPublic, onlyPrivate } from '../middlewares.js';
-import { postJoin, postLogin, getLogout, getMe } from '../controller/userController.js';
+import routes from '../routes.js'
+import express from 'express'
+import passport from 'passport'
+import {
+  getMe, 
+  getUserDetail, 
+  postEditProfile, 
+  postUpdatePassword
+} from '../controller/userController.js'
 
-const globalRouter = express.Router();
+const userRouter = express.Router()
 
-// [post] api/
-globalRouter.post(routes.join, onlyPublic, postJoin);
+// [get] user/changePassword
+userRouter.get(routes.me,
+  passport.authenticate('jwt', { session: false }),
+  getMe
+)
 
-// [post] api/login
-globalRouter.post(routes.login, onlyPublic, postLogin);
+// [get] user/changePassword
+userRouter.get(routes.userDetail, getUserDetail)
 
-// [get] api/changePassword
-globalRouter.get(routes.me, getMe)
+// [post] user/edit-profile
+userRouter.post(routes.userEdit,
+  passport.authenticate('jwt', { session: false }),
+  postEditProfile
+)
 
-// [get] api/challenges
-globalRouter.get(routes.challenges, getAllChallenges);
+// [post] user/change-password
+userRouter.post(routes.changePassword,
+  passport.authenticate('jwt', { session: false }),
+  postUpdatePassword
+)
 
 
 
-export default globalRouter;
+
+
+export default userRouter

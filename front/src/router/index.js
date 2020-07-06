@@ -1,6 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store'
+
+
+/*
+const requireAuth = () => (from, to, next) => {
+  // console.log({from, to, next})
+  if (store.getters.isAuthenticated){
+    console.log('로그인 됨')
+    return next()
+  }
+  next(`/login?returnPath=${from.name}`)
+}
+*/
 
 Vue.use(VueRouter)
 
@@ -8,7 +21,15 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter :  (from, to, next) => {
+      // console.log({from, to, next})
+      if (store.getters.isAuthenticated){
+        console.log('로그인 됨')
+        return next()
+      }
+      next(`/login`)
+    }
   },
   {
     path: '/about',
@@ -21,7 +42,15 @@ Vue.use(VueRouter)
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/Login.vue'),
+    beforeEnter : (from, to, next) => {
+      if(!(store.getters.isAuthenticated)){
+        console.log('로그인 안됨')
+        return next()
+      }
+      console.log('로그인 됨')
+      next(`/`)
+    }
   },
   {
     path: '/join',
