@@ -59,7 +59,6 @@ Vue.use(VueRouter)
   },
   {
     path: '/challenge/:id',
-    name: 'Join',
     component: () => import('../views/Challenge.vue')
   },
   {
@@ -74,6 +73,12 @@ Vue.use(VueRouter)
       }
       next(`/login`)
     }
+  },
+  {
+    path: '/create-challenge',
+    name: 'CreateChallenge',
+    component: () => import('../views/CreateChallenge.vue')
+    // beforeEnter : Auth 단계 설정
   },
 ]
 

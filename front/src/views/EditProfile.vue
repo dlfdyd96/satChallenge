@@ -14,8 +14,8 @@
         <v-col
           cols="12"
           sm="6"
-          v-for="(item, index) in accountInformation"
-          :key="index"
+          v-for="(item, key) in accountInformation"
+          :key="key"
         >
           <div class="text-h6 font-weight-bold blue-grey--text text--darken-2">{{item.title}}</div>
           <div>
@@ -40,18 +40,18 @@
           <div class="text-h6 font-weight-bold blue-grey--text text--darken-2">Language</div>
         </v-col>
         <v-col cols="12">
-          <language :initSelected="user.representLang"  @select="onSelect"/>
+          <language :initSelected="representLang"  @select="onSelect"/>
         </v-col>
         <v-col cols="12">
           <v-row justify="center">
             <v-col cols="6">
               <div class="d-flex justify-center ">
-                <v-btn width="100%" color="orange" class="white--text">Edit Profile</v-btn>
+                <v-btn width="100%" color="orange" class="white--text" @click.prevent="onEditProfile">Edit Profile</v-btn>
               </div>
             </v-col>
             <v-col cols="6">
               <div class="d-flex justify-center">
-                <v-btn width="100%">reset</v-btn>
+                <v-btn width="100%" @click.prevent="onReset">reset</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -99,7 +99,7 @@ export default {
         },
       },
       user : {},
-      selectedLanguage : '',
+      representLang : '',
     }
   },
   created () {
@@ -110,6 +110,7 @@ export default {
       this.accountInformation.username.value = this.user.username
       this.accountInformation.email.value = this.user.email
       this.accountInformation.backjoonId.value = this.user.backjoonId
+      this.representLang = this.user.representLang
     })
     .catch((err) => console.log(err))
   },
@@ -118,8 +119,31 @@ export default {
   },
   methods: {
     onSelect(data) {
-      this.user.representLang = data;
+      this.representLang = data;
       console.log(`this is parent : ${typeof data}`);
+    },
+    onReset() {
+      this.accountInformation.username.value = this.user.username
+      this.accountInformation.email.value = this.user.email
+      this.accountInformation.backjoonId.value = this.user.backjoonId
+      this.representLang = this.user.representLang
+    },
+    async onEditProfile() {
+      const user = {
+        username : this.accountInformation.username.value,
+        email : this.accountInformation.email.value,
+        backjoonId : this.accountInformation.backjoonId.value,
+        representLang : this.representLang,
+      }
+      await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/user/edit-profile`, user)
+      .then(res => {
+        console.log(res)
+        
+        this.$router.push('/')
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
 }

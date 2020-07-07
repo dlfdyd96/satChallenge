@@ -100,76 +100,76 @@
         <v-row>
           <v-col cols="12">
             <div class="d-flex justify-center">
-                <!-- 달력 -->
-                <v-date-picker
-                  v-model="picker"
-                  full-width
-                  show-current
-                  @click:date="clickDate"
-                  :events="functionEvents"
-                  next-icon="fas fa-chevron-right"
-                  prev-icon="fas fa-chevron-left"
-                >
-                </v-date-picker>
+              <!-- 달력 -->
+              <v-date-picker
+                v-model="picker"
+                full-width
+                show-current
+                @click:date="clickDate"
+                :events="functionEvents"
+                next-icon="fas fa-chevron-right"
+                prev-icon="fas fa-chevron-left"
+              >
+              </v-date-picker>
 
-                <!-- dialog -->
-                <v-dialog
-                  v-model="dialog"
-                  persistent
-                  max-width="50%"
+              <!-- dialog -->
+              <v-dialog
+                v-model="dialog"
+                persistent
+                max-width="50%"
+              >
+                <v-card
+                  rounded
                 >
-                  <v-card
-                    rounded
-                  >
-                    <v-card-title class="text-h4"> Day {{selectedItem.day}} | Challenge</v-card-title>
-                    <v-card-subtitle class="d-flex justify-end">{{picker}}</v-card-subtitle>
-                    <v-card-text>
-                      <div class="d-flex flex-column">
-                        <div
-                          class="mb-5"
-                          v-for="(item, index) in selectedItem.quizzes"
-                          :key="index"
-                        >
-                          <!-- title -->
-                          <div class="text-h6">
-                            Quiz {{index + 1}}. 
-                            <a :href="item.url" class="black--text">{{item.title}}</a>
-                          </div>
-                          <!-- 문제 설명 -->
-                          <div>
+                  <v-card-title class="text-h4"> Day {{selectedItem.day}} | Challenge</v-card-title>
+                  <v-card-subtitle class="d-flex justify-end">{{picker}}</v-card-subtitle>
+                  <v-card-text>
+                    <div class="d-flex flex-column">
+                      <div
+                        class="mb-5"
+                        v-for="(item, index) in selectedItem.quizzes"
+                        :key="index"
+                      >
+                        <!-- title -->
+                        <div class="text-h6">
+                          Quiz {{index + 1}}. 
+                          <a :href="item.url" class="black--text">{{item.title}}</a>
+                        </div>
+                        <!-- 문제 설명 -->
+                        <div>
 
-                          </div>
-                          <!-- input, submit -->
-                          <div>
-                            <v-text-field
-                              outlined
-                              placeholder="Github URL"
-                            >
-                            </v-text-field>
-                          </div>
-                          <div class="d-flex justify-end">
-                            <v-btn >
-                              submit
-                            </v-btn>
-                          </div>
+                        </div>
+                        <!-- input, submit -->
+                        <div>
+                          <v-text-field
+                            outlined
+                            placeholder="Github URL"
+                          >
+                          </v-text-field>
+                        </div>
+                        <div class="d-flex justify-end">
+                          <v-btn >
+                            submit
+                          </v-btn>
                         </div>
                       </div>
-                    </v-card-text>
+                    </div>
+                  </v-card-text>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="primary darken-1"
-                        class="text-h6"
-                        text
-                        @click="dialog = false"
-                      >
-                        닫기
-                      </v-btn>
-                    </v-card-actions>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary darken-1"
+                      class="text-h6"
+                      text
+                      @click="dialog = false"
+                    >
+                      닫기
+                    </v-btn>
+                  </v-card-actions>
 
-                  </v-card>
-                </v-dialog>
+                </v-card>
+              </v-dialog>
             </div>
           </v-col>
           <v-col cols="12">
@@ -219,7 +219,7 @@ export default {
           2,
         ],
       },
-
+      
       // dialog
       dialog : false,
       selectedItem : {

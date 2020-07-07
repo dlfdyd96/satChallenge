@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   naverId : Number,
   kakaoId : Number,
   representLang : String,
+  backjoonId : String,
   challenge : [  // challenge 만든 이
     {
       type: mongoose.Schema.Types.ObjectId,

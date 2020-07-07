@@ -22,10 +22,28 @@
     <!-- Challenge 부분 -->
     <v-container>
       <v-row>
-        <v-col>
+        <v-col cols="8">
           <div class="text-h5 font-weight-bold blue-grey--text text--darken-2">
             🏋️‍♂️ Challenges
           </div>
+        </v-col>
+        
+        <!-- create challenge 버튼 -->
+        <v-col cols="4">
+          <div class="d-flex justify-end">
+            <v-btn 
+              rounded color="light-green lighten-2" class="white--text text-md-h5 text-sm-h6 text-h6"
+              to="/create-challenge"
+            >
+              <v-icon class="mr-2" small>
+                fas fa-plus
+              </v-icon>
+              <span>
+                create
+              </span>
+            </v-btn>
+          </div>
+          
         </v-col>
       </v-row>
       <v-row>
