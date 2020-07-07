@@ -22,7 +22,7 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter :  (from, to, next) => {
+    beforeEnter : (from, to, next) => {
       // console.log({from, to, next})
       if (store.getters.isAuthenticated){
         console.log('로그인 됨')
@@ -61,6 +61,19 @@ Vue.use(VueRouter)
     path: '/challenge/:id',
     name: 'Join',
     component: () => import('../views/Challenge.vue')
+  },
+  {
+    path: '/edit-profile',
+    name: 'Edit Profile',
+    component: () => import('../views/EditProfile.vue'),
+    beforeEnter : (from, to, next) => {
+      // console.log({from, to, next})
+      if (store.getters.isAuthenticated){
+        console.log('로그인 됨')
+        return next()
+      }
+      next(`/login`)
+    }
   },
 ]
 

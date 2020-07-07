@@ -23,7 +23,7 @@
             {{email}}
           </v-list-item-subtitle>
           <v-list-item-subtitle>
-            <router-link to="#">Edit Profile</router-link>
+            <router-link to="/edit-profile">Edit Profile</router-link>
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
