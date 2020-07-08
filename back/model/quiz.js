@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
   day : {
-    type : String,
+    type : Date,
     required : "Day is required",
   },
   title : {
