@@ -29,7 +29,7 @@ export default new Vuex.Store({
     LOGOUT (state) {
       state.accessToken = null
       delete localStorage.accessToken
-    },
+    }
   },
   actions: {
     LOGIN ({commit}, {email, password}) {

@@ -75,6 +75,7 @@
 import Profile from '../components/Profile';
 import Language from '../components/Language';
 import Challenge from '../components/ChallengeItem';
+import axios from 'axios'
 
 export default {
   name: 'Home',
@@ -87,6 +88,18 @@ export default {
     return {
       languageComplete: false,
     }
+  },
+  created () {
+    axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge`)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.dir(err)
+      let msg = err.response.data.err.errors
+      if(msg)
+        window.alert(msg)
+    })
   },
 }
 </script>
