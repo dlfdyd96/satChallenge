@@ -65,6 +65,19 @@
             :users='1'
           />
         </v-col>
+        <v-col cols="12" sm="6" md="4"
+          v-for="(item, index) in challenges"
+          :key="index"
+        >
+          <challenge 
+            :startTime="new Date(item.startedAt)"
+            :title="item.title"
+            :weeks='item.weeks'
+            :problems='item.problems'
+            :users='item.challengers.length'
+            @endTime="endTime"
+          />
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -87,12 +100,15 @@ export default {
   data() {
     return {
       languageComplete: false,
+      challenges : []
+      
     }
   },
   created () {
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge`)
-    .then((res) => {
-      console.log(res)
+    .then(({data : {challenges}}) => {
+      console.log('all challenge',challenges)
+      this.challenges = [...challenges]
     })
     .catch((err) => {
       console.dir(err)
@@ -100,6 +116,11 @@ export default {
       if(msg)
         window.alert(msg)
     })
+  },
+  computed: {
+    getChallengers(item) {
+      return item.challengers.length
+    }
   },
 }
 </script>

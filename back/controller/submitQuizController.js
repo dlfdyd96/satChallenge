@@ -37,6 +37,7 @@ export const getReadSubmitQuiz = async (req, res, next) => {
 
       res.status(200).json({
           message : "Success Read submitQuiz",
+          selectedSubmitQuiz,
       })
       // next();
   } catch(err) {
@@ -57,6 +58,7 @@ export const postUpdateSubmitQuiz = async (req, res, next) => {
       const selectedSubmitQuiz = await SubmitQuiz.findById({_id:id});
       if(selectedSubmitQuiz.creator !== user._id)
         throw 'Not Author'
+
       await SubmitQuiz.findOneAndUpdate({_id : id}, body);
       res.status(200).json ({
           message : "Success Update submitQuiz",

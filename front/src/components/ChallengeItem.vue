@@ -46,11 +46,18 @@
       <v-card-text>
         <div class="text-subtitle-1">Status in : 
         </div>
-        <div class="black--text text-h5">{{day}}d {{hour}}h {{min}}m {{sec}}s</div>
+        <div v-if="!endTime" class="black--text text-h5">{{day}}d {{hour}}h {{min}}m {{sec}}s</div>
+        <div v-else class="black--text text-h5">
+          진행중
+        </div>
+        <div>
+
+        </div>
         <div class="mt-5">
           <v-btn 
             width="100%"
             to="/challenge/1"
+            :disabled="endTime"
           >
             Join
           </v-btn>
@@ -84,6 +91,10 @@ export default {
       type: Number,
       default: 0
     },
+    negative : {
+      type: Boolean,
+      default: false,
+    }
   },
   computed: {
     day() {
@@ -105,20 +116,16 @@ export default {
   },
   data() {
     return {
-      // title: '2020 여름방학 스터디',
-      // weeks : 4,
-      // problems : 30,
-      // users : 5,
       now : Date.now(),
-      // startTime : null,
       timer : null,
+      endTime : false,
     }
   },
   created () {
     // this.startTime = new Date('2021-02-04T00:00:00');
   },
   watch : {
-    endDate : {
+    startTime : {
       immediate : true,
       handler(newVal){
         if(this.timer){
@@ -127,11 +134,14 @@ export default {
 
         this.timer = setInterval(()=>{
           this.now = new Date();
-          if(this.negative)
+          // console.log('작동중')
+          if(this.negative) {
             return;
+          }
 
           if(this.now > newVal){
             this.now = newVal;
+            this.endTime = true;
             this.$emit('endTime');
             clearInterval(this.timer);
           }

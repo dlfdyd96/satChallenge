@@ -176,6 +176,13 @@
                     >
                       edit
                     </v-btn>
+                    <v-btn
+                      color="red"
+                      @click="onDelete(index)"
+                      text
+                    >
+                      삭제
+                    </v-btn>
                   </v-card-title>
                   <v-card-subtitle>
                     Link : {{item.url}}
@@ -357,6 +364,9 @@ export default {
 
       // home 으로 이동
       this.$router.push('/');
+    },
+    onDelete(index) {
+      console.log(index);
     }
   },
   created () {

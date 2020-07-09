@@ -1,7 +1,11 @@
 import routes from '../routes.js'
 import express from 'express'
 import passport from 'passport'
-import { postCreateQuiz, getReadQuiz, postUpdateQuiz, getDeleteQuiz } from '../controller/quizController.js'
+import { 
+  postCreateQuiz, 
+  getReadQuiz, 
+  postUpdateQuiz, 
+  getDeleteQuiz } from '../controller/quizController.js'
 
 
 const quizRouter = express.Router()
@@ -14,7 +18,9 @@ quizRouter.post(routes.createQuiz,
 )
 
 // [post] Read Quiz
-quizRouter.get(routes.readQuiz, getReadQuiz)
+quizRouter.get(routes.readQuiz, 
+  getReadQuiz
+)
 
 // [post] Update Quiz
 quizRouter.post(routes.updateQuiz, 

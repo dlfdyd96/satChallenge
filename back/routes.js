@@ -24,6 +24,12 @@ const READ_QUIZ = "/:id"
 const UPDATE_QUIZ = "/:id/update"
 const DELETE_QUIZ = "/:id/delete"
 
+// subMitQuiz
+const CREATE_SUBMIT_QUIZ = "/create"
+const READ_SUBMIT_QUIZ = "/:id"
+const UPDATE_SUBMIT_QUIZ = "/:id/update"
+const DELETE_SUBMIT_QUIZ = "/:id/delete"
+
 const routes = {
   // global
   join: JOIN,
@@ -47,11 +53,17 @@ const routes = {
   updateChallenge: UPDATE_CHALLENGE,
   deleteChallenge: DELETE_CHALLENGE,
 
-  // quiz
+  // SUBMIT_quiz
   createQuiz : CREATE_QUIZ,
   readQuiz : READ_QUIZ,
   updateQuiz : UPDATE_QUIZ,
   deleteQuiz : DELETE_QUIZ,
+
+  //submitQuiz
+  createSubmitQuiz: CREATE_SUBMIT_QUIZ,
+  readSubmitQuiz: READ_SUBMIT_QUIZ,
+  updateSubmitQuiz: UPDATE_SUBMIT_QUIZ,
+  deleteSubmitQuiz: DELETE_SUBMIT_QUIZ,
 };
 
 

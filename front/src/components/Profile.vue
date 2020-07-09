@@ -44,11 +44,11 @@ export default {
   },
   created () {
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/user/me`)
-    .then(({data}) => {
-      console.log(data)
-      this.name = data.username;
-      this.email = data.email;
-      this.representLang = data.representLang;
+    .then(({data : {userInfo}}) => {
+      console.log(userInfo)
+      this.name = userInfo.username;
+      this.email = userInfo.email;
+      this.representLang = userInfo.representLang;
     })
     .catch((err) => console.log(err))
   },

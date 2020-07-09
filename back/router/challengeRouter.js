@@ -20,8 +20,10 @@ challengeRouter.post(routes.createChallenge,
   postCreateChallenge
 )
 
-// [post] Read Challenge
-challengeRouter.get(routes.readChallenge, getReadChallenge)
+// [get] Read Challenge
+challengeRouter.get(routes.readChallenge, 
+  getReadChallenge
+)
 
 // [post] Update Challenge
 challengeRouter.post(routes.updateChallenge, 

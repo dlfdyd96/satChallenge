@@ -104,9 +104,9 @@ export default {
   },
   created () {
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/user/me`)
-    .then(({data}) => {
-      console.log(data)
-      this.user = data;
+    .then(({data : {userInfo}}) => {
+      console.log(userInfo)
+      this.user = userInfo;
       this.accountInformation.username.value = this.user.username
       this.accountInformation.email.value = this.user.email
       this.accountInformation.backjoonId.value = this.user.backjoonId

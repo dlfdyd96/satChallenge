@@ -10,6 +10,7 @@ import globalRouter from './router/globalRouter.js'
 import userRouter from './router/UserRouter.js'
 import challengeRouter from './router/challengeRouter.js'
 import quizRouter from './router/quizRouter.js'
+import submitQuizRouter from './router/submitQuizRouter.js'
 
 
 const app = express()
@@ -27,6 +28,7 @@ app.use('/' , globalRouter)
 app.use('/user', userRouter)
 app.use('/challenge', challengeRouter)
 app.use('/quiz', quizRouter)
+app.use('/submit-quiz', submitQuizRouter)
 
 
 export default app;

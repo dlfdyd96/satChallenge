@@ -51,6 +51,7 @@ export const getReadChallenge = async (req, res, next) => {
 
       res.status(200).json({
           message : "Success Read Challenge",
+          selectedChallenge
       })
       // next();
   } catch(err) {
@@ -68,13 +69,14 @@ export const postUpdateChallenge = async (req, res, next) => {
   } = req;
   
   try {
-    const challenge = await Challenge.findById({_id:id});
-    if(challenge.creator !== user._id)
+    const selectedChallenge = await Challenge.findById({_id:id});
+    if(selectedChallenge.creator !== user._id)
       throw 'Not Author'
 
-    await Challenge.findOneAndUpdate({_id : id}, body);
+    const updatedChallenge = await Challenge.findOneAndUpdate({_id : id}, body);
     res.status(200).json ({
         message : "Success Update Challenge",
+        updatedChallenge,
     })
   } catch(err){ 
     console.log(`Failed to Update Challenge ${err}`);
@@ -92,11 +94,11 @@ export const getDeleteChallenge = async (req, res, next) => {
     user
   } = req;
   try {
-    const challenge = await Challenge.findById({_id:id});
-    if(challenge.creator !== user._id)
+    const selectedChallenge = await Challenge.findById({_id:id});
+    if(selectedChallenge.creator !== user._id)
       throw 'Not Author'
 
-    const deleteChallenge = await Challenge.findByIdAndDelete({_id: id});
+    await Challenge.findByIdAndDelete({_id: id});
     res.status(200).json({message : "Success Delete Challenge"})
   } catch(err) {
     console.log(err);

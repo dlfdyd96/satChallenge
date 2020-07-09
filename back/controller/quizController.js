@@ -6,18 +6,7 @@ export const postCreateQuiz = async (req, res, next) => {
     body, user
   } = req;
   try {
-    /*
-    const newQuiz = await Quiz.create({
-      creator : req.user._id,
-      ...body
-      // title,
-      // weeks,
-      // problems,
-      // startedAt,  // "2020-01-01" String으로 받을 것.
-      // img 
-    })
-    */
-
+    // quizzes = [ { }, { }, ...]
     await Promise.all(
       body.map((quiz) => {
         Quiz.create({
@@ -44,11 +33,13 @@ export const getReadQuiz = async (req, res, next) => {
   try {
       const selectedQuiz = await Quiz.findById(id)
           .populate("challenge") // 사용자 정보 얻어오기
-          .populate("quizs") // 문제들 다 불러 오기
+          .populate("creator") // 문제들 다 불러 오기
+          .populate("submitChallenger")
       // console.log(`읽기 : ${itinerary}`);
 
       res.status(200).json({
           message : "Success Read Quiz",
+          selectedQuiz
       })
       // next();
   } catch(err) {
@@ -60,25 +51,27 @@ export const getReadQuiz = async (req, res, next) => {
 // U
 export const postUpdateQuiz = async (req, res, next) => {
   const {
-      body,
-      params : {id},
-      user
+    body,
+    params : {id},
+    user
   } = req;
   try {
-      // console.log({title, description, routes, date, id});
-      const quiz = await Quiz.findById({_id:id});
-      if(quiz.creator !== user._id)
-        throw 'Not Author'
-      await Quiz.findOneAndUpdate({_id : id}, body);
-      res.status(200).json ({
-          message : "Success Update Quiz",
-      })
+    // console.log({title, description, routes, date, id});
+    const selectedQuiz = await Quiz.findById({_id:id});
+    if(selectedQuiz.creator !== user._id)
+      throw 'Not Author'
+
+    const updatedQuiz = await Quiz.findOneAndUpdate({_id : id}, body);
+    res.status(200).json ({
+      message : "Success Update Quiz",
+      updatedQuiz
+    })
   } catch(err){ 
-      console.log(`Failed to Update Quiz ${err}`);
-      res.status(400).json({
-          message : "Failed to Update Quiz",
-          error : err
-      });   
+    console.log(`Failed to Update Quiz ${err}`);
+    res.status(400).json({
+      message : "Failed to Update Quiz",
+      error : err
+    });   
   }
 }
 
@@ -88,10 +81,11 @@ export const getDeleteQuiz = async (req, res, next) => {
     params : { id }
   } = req;
   try {
-    const quiz = await Quiz.findById({_id:id});
-    if(quiz.creator !== user._id)
+    const selectedQuiz = await Quiz.findById({_id:id});
+    if(selectedQuiz.creator !== user._id)
       throw 'Not Author'
-    const deleteQuiz = await Quiz.findByIdAndDelete({_id: id});
+
+    await Quiz.findByIdAndDelete({_id: id});
     res.status(200).json({message : "Success Delete Quiz"})
   } catch(err) {
     console.log(err);

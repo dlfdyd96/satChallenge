@@ -24,11 +24,11 @@ const challengeSchema = new mongoose.Schema({
   img : {
     type: String,
   },
-  creator : {
+  creator: {
     type : mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  challengers : [
+  challengers: [
     {
       type : mongoose.Schema.Types.ObjectId,
       ref: "User",

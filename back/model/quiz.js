@@ -1,25 +1,25 @@
 import mongoose, { mongo } from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
-  day : {
-    type : Date,
-    required : "Day is required",
-  },
   title : {
     type: String,
     required: "Title is Required",
   },
-  url : {
+  url : { // 문제 url
     type: String,
     required : "URL is required",
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  day : {
+    type : Date,
+    required : "Day is required",
   },
   description : {
     type: String,
     required : "Description is required",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   },
   challenge : {
     type: mongoose.Schema.Types.ObjectId,
