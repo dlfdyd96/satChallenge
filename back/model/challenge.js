@@ -24,12 +24,6 @@ const challengeSchema = new mongoose.Schema({
   img : {
     type: String,
   },
-  quizes : [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref : "Quiz"
-    }
-  ],
   creator : {
     type : mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -37,7 +31,7 @@ const challengeSchema = new mongoose.Schema({
   challengers : [
     {
       type : mongoose.Schema.Types.ObjectId,
-      ref : "User"
+      ref: "User",
     }
   ],
 });

@@ -6,6 +6,7 @@ export const postCreateQuiz = async (req, res, next) => {
     body, user
   } = req;
   try {
+    /*
     const newQuiz = await Quiz.create({
       creator : req.user._id,
       ...body
@@ -15,9 +16,19 @@ export const postCreateQuiz = async (req, res, next) => {
       // startedAt,  // "2020-01-01" String으로 받을 것.
       // img 
     })
+    */
+
+    await Promise.all(
+      body.map((quiz) => {
+        Quiz.create({
+          creator : req.user._id,
+          ...quiz
+        })
+      })
+    )
+
     res.status(200).json({
-      message: "Success Create Quiz",
-      newQuiz
+      message: "Success Create Quiz"
     })
   } catch(err) {
     console.log(err);

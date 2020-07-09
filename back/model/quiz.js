@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
   day : {
@@ -29,6 +29,12 @@ const quizSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref : "User"
   },
+  submitChallenger : [
+    {
+      type : mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
 });
 
 const model = mongoose.model("Quiz", quizSchema);

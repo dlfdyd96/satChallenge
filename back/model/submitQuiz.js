@@ -6,7 +6,7 @@ const SubmitQuizSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  user : {
+  creator : {
     type : mongoose.Schema.Types.ObjectId,
     ref : "User"
   }

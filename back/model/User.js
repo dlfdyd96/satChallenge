@@ -14,23 +14,11 @@ const UserSchema = new mongoose.Schema({
   kakaoId : Number,
   representLang : String,
   backjoonId : String,
-  challenge : [  // challenge 만든 이
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Challenge"
-    }
-  ],
-  joinedChallenges : [ // join 한 chanllenge 들
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Challenge" 
-    }
-  ],
-  // 푼문제들
-  submitQuiz : [
+
+  joinedChallenge : [
     {
       type : mongoose.Schema.Types.ObjectId,
-      ref: "SubmitQuiz"
+      ref : "Challenge"
     }
   ],
 

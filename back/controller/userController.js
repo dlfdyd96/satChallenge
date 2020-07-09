@@ -85,22 +85,27 @@ export const verifyUser = async (jwt_payload, done) => {
     })
 }
 
-export const getMe = (req, res, next) => {
-  res.status(200).json(req.user)
+export const getMe = async (req, res, next) => {
+  const {
+    user
+  } = req;
+  const userInfo = await User.findById({_id : user._id}).populate("joinedChallenge");
+  res.status(200).json({
+    userInfo,
+  })
 }
 
 // User Detail
 export const getUserDetail = async (req, res, next) => {
   const {
-      params : { id }
+      params : { id },
   } = req;
   try {
-      const user = await User.findOne({_id : id});
+      const user = await User.findById({_id : user.id}).populate("joinedChallenge");
       // const itinerary = await Itinerary.find({creator : id})
       res.status(200).json({
           message : "Success get User Detail",
           user,
-          // itinerary
       })
   } catch(err) {
       console.log(`Get User Detail Error \n ${err}`);
