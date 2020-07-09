@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   naverId : Number,
   kakaoId : Number,
   representLang : String,
-  backjoonId : String,
+  baekjoon : String,
 
   joinedChallenge : [
     {

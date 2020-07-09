@@ -33,7 +33,9 @@
           sm="6"
         >
           <div class="d-flex justify-center">
-            <v-btn v-text="'Change Password'"></v-btn>
+            <v-btn v-text="'Change Password'" @click="onClickChangePW"></v-btn>
+            <!-- Change Password Dialog -->
+            <change-password :dialog.sync="changePWDialog"/>
           </div>
         </v-col>
         <v-col cols="12">
@@ -80,6 +82,7 @@
 <script>
 import axios from 'axios'
 import Language from '../components/Language'
+import ChangePassword from '../components/ChangePasswordDialog'
 
 export default {
   data() {
@@ -93,13 +96,14 @@ export default {
           title : "Email",
           value : ""
         },
-        backjoonId : {
-          title : "Backjoon Account",
+        baekjoon : {
+          title : "Baekjoon Id",
           value : ""
         },
       },
       user : {},
       representLang : '',
+      changePWDialog : false,
     }
   },
   created () {
@@ -109,13 +113,14 @@ export default {
       this.user = userInfo;
       this.accountInformation.username.value = this.user.username
       this.accountInformation.email.value = this.user.email
-      this.accountInformation.backjoonId.value = this.user.backjoonId
+      this.accountInformation.baekjoon.value = this.user.baekjoon
       this.representLang = this.user.representLang
     })
     .catch((err) => console.log(err))
   },
   components: {
     'language' : Language,
+    'change-password' : ChangePassword,
   },
   methods: {
     onSelect(data) {
@@ -125,14 +130,14 @@ export default {
     onReset() {
       this.accountInformation.username.value = this.user.username
       this.accountInformation.email.value = this.user.email
-      this.accountInformation.backjoonId.value = this.user.backjoonId
+      this.accountInformation.baekjoon.value = this.user.baekjoon
       this.representLang = this.user.representLang
     },
     async onEditProfile() {
       const user = {
         username : this.accountInformation.username.value,
         email : this.accountInformation.email.value,
-        backjoonId : this.accountInformation.backjoonId.value,
+        baekjoon : this.accountInformation.baekjoon.value,
         representLang : this.representLang,
       }
       await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/user/edit-profile`, user)
@@ -144,6 +149,12 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    onClickChangePW() {
+      this.changePWDialog = true;
+    },
+    onCloseDialog() {
+      this.changePWDialog = false;
     }
   },
 }

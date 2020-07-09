@@ -68,7 +68,7 @@
               <v-dialog
                 v-model="dialog"
                 persistent
-                max-width="50%"
+                max-width="70%"
               >
                 <v-card
                   rounded
@@ -173,8 +173,9 @@
                     <v-spacer></v-spacer>
                     <v-btn
                       @click="onEdit(index)"
+                      text
                     >
-                      edit
+                      수정
                     </v-btn>
                     <v-btn
                       color="red"
@@ -367,6 +368,7 @@ export default {
     },
     onDelete(index) {
       console.log(index);
+      this.quizzes.splice(index, 1);
     }
   },
   created () {

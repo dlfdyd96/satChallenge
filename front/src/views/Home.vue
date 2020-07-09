@@ -10,7 +10,7 @@
         </v-col>
       </v-row>
       <v-row align="stretch">
-        <v-col cols="12" sm="8">
+        <v-col cols="12" md="8">
           <profile/>
         </v-col>
         
@@ -101,7 +101,7 @@ export default {
     return {
       languageComplete: false,
       challenges : []
-      
+
     }
   },
   created () {
@@ -120,6 +120,11 @@ export default {
   computed: {
     getChallengers(item) {
       return item.challengers.length
+    }
+  },
+  methods: {
+    endTime() {
+      console.log('ㅎㅇ')
     }
   },
 }

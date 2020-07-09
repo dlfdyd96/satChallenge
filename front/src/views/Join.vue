@@ -136,7 +136,7 @@ export default {
         password : this.password,
         password2 : this.password2,
         username : this.name,
-        backjoon : this.backjoon,
+        baekjoon : this.baekjoon,
         representLang : this.icons[this.selected].name
       }
 

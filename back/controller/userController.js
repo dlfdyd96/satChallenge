@@ -9,6 +9,7 @@ export const postJoin = async (req, res, next) => {
     body: {
       password,
       password2,
+      baekjoon,
       email,
       username,
       representLang
@@ -19,7 +20,7 @@ export const postJoin = async (req, res, next) => {
     res.status(401).send({ status: 401, message: msg });
   }
   // User 이미 존재하면 미리다 체크해줌.
-  const user = new User({ email, username, representLang });
+  const user = new User({ email, username, representLang, baekjoon });
   try {
     await User.register(user, password);
     // res.status(200).send('join success');
