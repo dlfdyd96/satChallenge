@@ -56,7 +56,7 @@
         <div class="mt-5">
           <v-btn 
             width="100%"
-            to="/challenge/1"
+            :to='`/challenge/${id}`'
             :disabled="endTime"
           >
             Join
@@ -94,6 +94,10 @@ export default {
     negative : {
       type: Boolean,
       default: false,
+    },
+    id : {
+      type: String,
+      default: '1',
     }
   },
   computed: {

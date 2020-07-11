@@ -17,7 +17,7 @@ userRouter.get(routes.me,
 )
 
 // [get] user/changePassword
-userRouter.get(routes.userDetail, getUserDetail)
+userRouter.get(routes.userDetail(), getUserDetail)
 
 // [post] user/edit-profile
 userRouter.post(routes.userEdit,

@@ -5,14 +5,14 @@
       <v-container>
         <v-row>
           <v-col cols="12">
-            <div class="text-h4 font-weight-bold ml-4">{{title}}</div>
+            <div class="text-h4 font-weight-bold ml-4">{{selectedChallenge.title}}</div>
           </v-col>
         </v-row>
         <v-row no-gutters>
           <v-col
             cols="4"
-            v-for="(item, index) in descriptionItems"
-            :key="index"
+            v-for="(item, key) in descriptionItems"
+            :key="key"
           >
             <v-list-item>
               <v-list-item-icon class="mx-1">
@@ -21,7 +21,7 @@
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title v-text="item.text" class=" grey--text text--lighten-2"></v-list-item-title>
+                <v-list-item-title v-text="key === 'challengers' ? selectedChallenge[key].length + ` ${key}` : selectedChallenge[key] + ` ${key}`" class=" grey--text text--lighten-2"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             
@@ -184,30 +184,27 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
+      selectedChallenge : {
+        challengers : [],
+        weeks : 1,
+        problems : 2,
+       },
       title : "2020 여름방학 스터디",
-      problems : 3,
-      weeks : 3,
-      users : 20,
-      descriptionItems : [
-        {
+      descriptionItems : {
+        weeks : {
           icon : 'far fa-calendar-alt',
-          text : '3 weeks',
-          subTitle : '기간',
         },
-        {
+        problems : {
           icon : 'fas fa-puzzle-piece',
-          text : '20 problems',
-          subTitle : '문제 개수',
         },
-        {
+        challengers : {
           icon : 'fas fa-users',
-          text : '8 challengers',
-          subTitle : '참여자',
         },
-      ],
+      },
 
       // 달력
       picker : new Date().toISOString().substr(0, 10),
@@ -240,7 +237,16 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.params.id);
+    let challengeId = this.$route.params.id
+    console.log(`${challengeId}`)
+    axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}`)
+    .then(({data : { selectedChallenge , selectedQuizzes}}) => {
+      console.log(selectedChallenge, selectedQuizzes);
+      this.selectedChallenge = selectedChallenge
+    })
+    .catch((err) => {
+      console.dir(err);
+    })
   },
   computed: {
     functionEvents () {

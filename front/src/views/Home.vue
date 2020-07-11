@@ -75,6 +75,7 @@
             :weeks='item.weeks'
             :problems='item.problems'
             :users='item.challengers.length'
+            :id='item._id'
             @endTime="endTime"
           />
         </v-col>

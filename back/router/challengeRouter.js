@@ -21,18 +21,18 @@ challengeRouter.post(routes.createChallenge,
 )
 
 // [get] Read Challenge
-challengeRouter.get(routes.readChallenge, 
+challengeRouter.get(routes.readChallenge(), 
   getReadChallenge
 )
 
 // [post] Update Challenge
-challengeRouter.post(routes.updateChallenge, 
+challengeRouter.post(routes.updateChallenge(), 
   passport.authenticate('jwt', {session : false}),
   postUpdateChallenge
 )
 
 // [get] delete Challenge
-challengeRouter.get(routes.deleteChallenge,
+challengeRouter.get(routes.deleteChallenge(),
   passport.authenticate('jwt', {session : false}),
   getDeleteChallenge
 )

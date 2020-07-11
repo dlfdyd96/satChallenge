@@ -49,21 +49,57 @@ const routes = {
   // challenge
   challenges: CHALLENGES,
   createChallenge: CREATE_CHALLENGE,
-  readChallenge: READ_CHALLENGE,
-  updateChallenge: UPDATE_CHALLENGE,
-  deleteChallenge: DELETE_CHALLENGE,
+  readChallenge: id => {
+    if (id)
+      return `/${id}`
+    return READ_CHALLENGE
+  },
+  updateChallenge: id => {
+    if (id)
+      return `/${id}/update`
+    return UPDATE_CHALLENGE
+  },
+  deleteChallenge: id => {
+    if (id)
+      return `/${id}/delete`
+    return DELETE_CHALLENGE
+  },
 
   // SUBMIT_quiz
   createQuiz : CREATE_QUIZ,
-  readQuiz : READ_QUIZ,
-  updateQuiz : UPDATE_QUIZ,
-  deleteQuiz : DELETE_QUIZ,
+  readQuiz : id => {
+    if (id)
+      return `/${id}`
+    return READ_QUIZ
+  },
+  updateQuiz : id => {
+    if (id)
+      return `/${id}/update`
+    return UPDATE_QUIZ
+  },
+  deleteQuiz : id => {
+    if (id)
+      return `/${id}/delete`
+    return DELETE_QUIZ
+  },
 
   //submitQuiz
   createSubmitQuiz: CREATE_SUBMIT_QUIZ,
-  readSubmitQuiz: READ_SUBMIT_QUIZ,
-  updateSubmitQuiz: UPDATE_SUBMIT_QUIZ,
-  deleteSubmitQuiz: DELETE_SUBMIT_QUIZ,
+  readSubmitQuiz: id => {
+    if (id)
+      return `/${id}`
+    return READ_SUBMIT_QUIZ
+  },
+  updateSubmitQuiz: id => {
+    if (id)
+      return `/${id}/update`
+    return UPDATE_SUBMIT_QUIZ
+  },
+  deleteSubmitQuiz: id => {
+    if (id)
+      return `/${id}/delete`
+    return DELETE_SUBMIT_QUIZ
+  },
 };
 
 

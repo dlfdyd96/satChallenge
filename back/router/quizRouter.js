@@ -18,18 +18,18 @@ quizRouter.post(routes.createQuiz,
 )
 
 // [post] Read Quiz
-quizRouter.get(routes.readQuiz, 
+quizRouter.get(routes.readQuiz(), 
   getReadQuiz
 )
 
 // [post] Update Quiz
-quizRouter.post(routes.updateQuiz, 
+quizRouter.post(routes.updateQuiz(), 
   passport.authenticate('jwt', {session : false}),
   postUpdateQuiz
 )
 
 // [get] delete Quiz
-quizRouter.get(routes.deleteQuiz,
+quizRouter.get(routes.deleteQuiz(),
   passport.authenticate('jwt', {session : false}),
   getDeleteQuiz
 )

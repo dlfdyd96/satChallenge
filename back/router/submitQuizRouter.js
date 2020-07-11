@@ -14,16 +14,16 @@ submitQuizRouter.post(routes.createSubmitQuiz,
 )
 
 // [post] Read Submit Quiz
-submitQuizRouter.get(routes.readSubmitQuiz, getReadSubmitQuiz)
+submitQuizRouter.get(routes.readSubmitQuiz(), getReadSubmitQuiz)
 
 // [post] Update Submit Quiz
-submitQuizRouter.post(routes.updateSubmitQuiz, 
+submitQuizRouter.post(routes.updateSubmitQuiz(), 
   passport.authenticate('jwt', {session : false}),
   postUpdateSubmitQuiz
 )
 
 // [get] delete Submit Quiz
-submitQuizRouter.get(routes.deleteSubmitQuiz,
+submitQuizRouter.get(routes.deleteSubmitQuiz(),
   passport.authenticate('jwt', {session : false}),
   getDeleteSubmitQuiz
 )

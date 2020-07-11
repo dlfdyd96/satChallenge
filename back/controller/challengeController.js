@@ -1,4 +1,5 @@
 import Challenge from '../model/challenge';
+import Quiz from '../model/Quiz';
 
 export const getAllChallenges =  async (req, res, next) => {
   try {
@@ -40,18 +41,18 @@ export const postCreateChallenge = async (req, res, next) => {
 
 // R
 export const getReadChallenge = async (req, res, next) => {
-  params: { id }
-    const { 
+  const { 
+    params: { id }
   } = req;
   try {
       const selectedChallenge = await Challenge.findById(id)
           .populate("creator") // 사용자 정보 얻어오기
-          .populate("quizs") // 문제들 다 불러 오기
-      // console.log(`읽기 : ${itinerary}`);
-
+      const selectedQuizzes = await Quiz.find({challenge : id})
+      console.log(`selectedQuizzes : ${selectedQuizzes}`)
       res.status(200).json({
           message : "Success Read Challenge",
-          selectedChallenge
+          selectedChallenge,
+          selectedQuizzes
       })
       // next();
   } catch(err) {
