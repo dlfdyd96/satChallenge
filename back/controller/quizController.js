@@ -3,14 +3,21 @@ import Quiz from '../model/Quiz';
 // C
 export const postCreateQuiz = async (req, res, next) => {
   const {
-    body, user
+    body : {
+      quizzes,
+      challengeId
+    },
   } = req;
   try {
+    // console.log(req);
     // quizzes = [ { }, { }, ...]
+    // console.log('challenge ID : ', challengeId)
+    // console.log('quizzes : ', quizzes)
     await Promise.all(
-      body.map((quiz) => {
+      quizzes.map((quiz) => {
         Quiz.create({
           creator : req.user._id,
+          challenge : challengeId,
           ...quiz
         })
       })

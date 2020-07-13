@@ -218,17 +218,7 @@ export default {
 
       // 달력
       picker : new Date().toISOString().substr(0, 10),
-      quizzes : [{
-        day : '2020-07-08',
-        title : 'A+B 문제',
-        url : 'http://acmicpc.net',
-        description : '산술 연산',
-      },{
-        day : '2020-07-08',
-        title : 'A+B 문제',
-        url : 'http://acmicpc.net',
-        description : '산술 연산',
-      },
+      quizzes : [
       ],
 
       // dialog
@@ -340,6 +330,7 @@ export default {
       .then((res) => {
         console.log(res);
         challengeId = res.data.newChallenge._id;
+        console.log(challengeId)
       })
       .catch((err) => {
         console.dir(err);
@@ -348,19 +339,22 @@ export default {
       })
 
       // 2. 모든 문제들을 challenge id에 연결하여 db register
-      this.quizzes.forEach(quiz => {
-        quiz["challenge"] = challengeId
-        axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, quiz)
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.dir(err)
-          let msg = err.response.data.err.errors
-          if(msg)
-            window.alert(msg)
-          return;
-        })
+      // 2020-07-13 16:46
+      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, 
+        {
+            quizzes : this.quizzes, 
+            challenge : challengeId
+        }
+      )
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.dir(err)
+        let msg = err.response.data.err.errors
+        if(msg)
+          window.alert(msg)
+        return;
       })
 
       // home 으로 이동
@@ -373,6 +367,9 @@ export default {
   },
   created () {
     this.selectedItem.day = this.picker;
+  },
+  destroyed () {
+    console.log('Life Cycle : "Create Challenge.vue" is detropyed');
   },
 }
 </script>

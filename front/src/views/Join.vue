@@ -143,10 +143,14 @@ export default {
       axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/join`, user)
       .then(res => {
         console.log(res)
+        this.redirect();
       })
       .catch(err => {
         console.log(err)
       })
+    },
+    redirect() {
+      this.$router.push({name: 'Home'})
     }
   },
   data() {

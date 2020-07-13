@@ -24,7 +24,6 @@
                 <v-list-item-title v-text="key === 'challengers' ? selectedChallenge[key].length + ` ${key}` : selectedChallenge[key] + ` ${key}`" class=" grey--text text--lighten-2"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            
           </v-col>
         </v-row>
       </v-container>
@@ -188,12 +187,13 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      // Challenge Info
       selectedChallenge : {
         challengers : [],
         weeks : 1,
         problems : 2,
-       },
-      title : "2020 여름방학 스터디",
+      },
+      // Header item
       descriptionItems : {
         weeks : {
           icon : 'far fa-calendar-alt',
@@ -205,6 +205,11 @@ export default {
           icon : 'fas fa-users',
         },
       },
+
+      // Quiz info
+      selectedQuizzes : [
+
+      ],
 
       // 달력
       picker : new Date().toISOString().substr(0, 10),
@@ -222,27 +227,20 @@ export default {
       selectedItem : {
         day : -1,
         quizzes : [
-          {
-            title : 'A+B',
-            url : 'https://www.acmicpc.net/problem/1000',
-          },
-          {
-            title : 'A-B',
-            url : 'https://www.acmicpc.net/problem/1001',
-          },
+          
         ]
       },
-
-
     }
   },
   created () {
     let challengeId = this.$route.params.id
-    console.log(`${challengeId}`)
+    // console.log(`${challengeId}`)
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}`)
     .then(({data : { selectedChallenge , selectedQuizzes}}) => {
-      console.log(selectedChallenge, selectedQuizzes);
-      this.selectedChallenge = selectedChallenge
+      // console.log(selectedChallenge, selectedQuizzes);
+      
+      this.selectedChallenge = selectedChallenge;
+      this.selectedQuizzes = selectedQuizzes;
     })
     .catch((err) => {
       console.dir(err);
@@ -255,23 +253,38 @@ export default {
   },
   methods: {
     dateFunctionEvents (date) { // 날짜 하나하나 다 검사하는 거네...
-      const [,, day] = date.split('-')
+      // const [,, day] = date.split('-')
       // console.log(date)
-      if (this.schedule.date.includes(parseInt(day, 10))) 
-        if (this.schedule.complete.includes(parseInt(day, 10)))
-          return 'green'
-        else
-          return 'yellow'
+      /*
+      if (this.schedule.date.includes(date))
+        return 'red'
       // if ([1, 19, 22].includes(parseInt(day, 10))) return ['red', '#00f']
       return false
+      */
+     // console.log(this.selectedQuizzes)
+      let result = this.selectedQuizzes.some((element) => {
+        return (element.day.substr(0, 10) === date)
+      })
+      if (result)
+        return 'red'
+
+      return false;
+
 
     },
     clickDate(date) {
       // console.log(`클릭 했다. ${date}`);
-      const [,, day] = date.split('-');
-      this.selectedItem.day = this.schedule.date.indexOf(parseInt(day, 10)) + 1;
-      if(this.schedule.date.includes(parseInt(day, 10)))  // 일정 된 날만 dialog On
-        this.dialog = true;
+      // const [,, day] = date.split('-');\
+      let flag = false;
+      this.selectedItem.quizzes = []
+      this.selectedQuizzes.forEach((element, index) => {
+        if (element.day.substr(0, 10) === date) {
+          this.selectedItem.day = index + 1
+          this.selectedItem.quizzes.push(element)
+          flag = true;
+        }
+      })
+      this.dialog = flag;
     }
   },
 }

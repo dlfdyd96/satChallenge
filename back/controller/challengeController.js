@@ -47,8 +47,9 @@ export const getReadChallenge = async (req, res, next) => {
   try {
       const selectedChallenge = await Challenge.findById(id)
           .populate("creator") // 사용자 정보 얻어오기
-      const selectedQuizzes = await Quiz.find({challenge : id})
-      console.log(`selectedQuizzes : ${selectedQuizzes}`)
+      const selectedQuizzes = await Quiz.find()
+      
+      // console.log(`selectedQuizzes : ${selectedQuizzes}`)
       res.status(200).json({
           message : "Success Read Challenge",
           selectedChallenge,
