@@ -97,7 +97,8 @@ export const getDeleteChallenge = async (req, res, next) => {
   } = req;
   try {
     const selectedChallenge = await Challenge.findById({_id:id});
-    if(selectedChallenge.creator !== user._id)
+    // console.log(`만든이 : ${selectedChallenge.creator}\n사용자 : ${user._id}\n${selectedChallenge.creator+'' === user._id+''}`)
+    if(selectedChallenge.creator+'' !== user._id+'')
       throw 'Not Author'
 
     await Challenge.findByIdAndDelete({_id: id});

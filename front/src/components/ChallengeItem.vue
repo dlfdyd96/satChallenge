@@ -1,6 +1,80 @@
 <template>
   <div>
     <v-card>
+
+      <!-- Auth Menu -->
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            absolute
+            right
+            top
+            icon
+            x-small
+
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>
+              fas fa-ellipsis-v
+            </v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            @click="onEditBtn"
+          >
+            <v-list-item-title class="grey--text text--darken-1">수정</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            @click="onDelBtn"
+          >
+            <v-list-item-title class="red--text">삭제</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <!-- Dialog -->
+      <v-dialog
+        v-model="dialog"
+        max-width="500px"
+      >
+        <v-card>
+          <v-container >
+            <v-row>
+              <v-col>
+                <div class="d-flex justify-center text-h6">
+                  정말로 삭제하시겠습니까?
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <div class="d-flex justify-end">
+                  <v-btn
+                    text
+                    color="grey darken-1"
+                    @click="onCancelDialog"
+                  >
+                    취소
+                  </v-btn>
+                  <v-btn
+                    text
+                    color="red"
+                    @click="onRemoveDialog"
+                  >
+                    삭제
+                  </v-btn>
+                </div>
+              </v-col>
+
+            </v-row>
+          </v-container>
+        </v-card>
+        
+      </v-dialog>
+        
       <v-card-title class="font-weight-bold d-flex justify-center">{{title}}</v-card-title>
       <v-list>
         <!-- 몇 주 -->
@@ -123,6 +197,9 @@ export default {
       now : Date.now(),
       timer : null,
       endTime : false,
+
+      //dialog
+      dialog : false,
     }
   },
   created () {
@@ -155,10 +232,27 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
-  }
+  },
+  methods: {
+    onEditBtn() {
+      //
+    },
+    onDelBtn() {
+      this.dialog = true;
+    },
+    onCancelDialog(){
+      this.dialog = false;
+    },
+    onRemoveDialog(){
+      this.$emit('onRemoveDialog', this.id);
+      this.$destroy();
+    },
+  },
 }
 </script>
 
-<style>
-
+<style scoped>
+.item__edit {
+  background: rgba(0, 0, 0, 0.1);
+}
 </style>

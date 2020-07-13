@@ -30,6 +30,11 @@
       <v-spacer></v-spacer>
 
       <div class="hidden-sm-and-down">
+        <!-- About -->
+        <v-btn text class="white--text mx-2 text-md-h5 text-sm-h6 text-h6" large to="/about">
+          About
+        </v-btn>
+        <!-- FAQ -->
         <v-btn text class="white--text mx-2 text-md-h5 text-sm-h6 text-h6" large to="/faq">
           FAQ
         </v-btn>

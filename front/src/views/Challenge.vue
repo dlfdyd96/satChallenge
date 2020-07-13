@@ -40,17 +40,20 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col v-if="false">
+          <!-- true -->
+          <v-col v-if="todayAssignment.length === 0">
             <div>😉 오늘은 할일이 없어요!</div>
             <div>공부에도 휴식이 필요해요 ㅎㅎ</div>
           </v-col>
-          <v-col v-else>
-            Quiz 1. A+B
+
+          <!-- false -->
+          <v-col v-else
+            v-for="(item, index) in todayAssignment"
+            :key="index"
+          >
+            Quiz {{item + 1}}. {{item.title}}
             <div class="ml-2">
-              - Stack 을 이용한 문제 (참고: http://이정철멍청이.com)
-            </div>
-            <div class="ml-2">
-              - 난이도 쉬움
+              - {{item.description}}
             </div>
             <div class="d-flex ">
               <v-text-field outlined class="pa-2">
@@ -207,9 +210,10 @@ export default {
       },
 
       // Quiz info
-      selectedQuizzes : [
+      selectedQuizzes : [ ],
 
-      ],
+      // today 
+      todayAssignment : [ ],
 
       // 달력
       picker : new Date().toISOString().substr(0, 10),
@@ -241,6 +245,7 @@ export default {
       
       this.selectedChallenge = selectedChallenge;
       this.selectedQuizzes = selectedQuizzes;
+      this.selectToday();
     })
     .catch((err) => {
       console.dir(err);
@@ -252,6 +257,13 @@ export default {
     }
   },
   methods: {
+    selectToday() {
+      let todayTime = new Date().toISOString().substr(0,10)
+      this.selectedQuizzes.forEach((element) => {
+        if(todayTime == element.day.substr(0, 10)) 
+          this.todayAssignment.push(element)
+      })
+    },
     dateFunctionEvents (date) { // 날짜 하나하나 다 검사하는 거네...
       // const [,, day] = date.split('-')
       // console.log(date)

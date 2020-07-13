@@ -252,6 +252,7 @@ export default {
   },
   methods: {
     ...mapActions(['ME']),
+    
     dateFunctionEvents (date) { // 날짜 하나하나 다 검사하는 거네...
       const [year, month, day] = date.split('-')
       // console.log(date)

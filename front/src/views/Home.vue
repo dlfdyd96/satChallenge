@@ -76,6 +76,7 @@
             :problems='item.problems'
             :users='item.challengers.length'
             :id='item._id'
+            @onRemoveDialog="onRemoveDialog"
             @endTime="endTime"
           />
         </v-col>
@@ -126,6 +127,21 @@ export default {
   methods: {
     endTime() {
       console.log('ㅎㅇ')
+    },
+    onRemoveDialog(challengeId) {
+      const filter = this.challenges.filter((element) => {
+        return element._id !== challengeId
+      })
+      this.challenges = filter
+      
+      axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}/delete`)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.dir(err) 
+      })
+
     }
   },
 }
