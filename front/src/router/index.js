@@ -77,7 +77,13 @@ Vue.use(VueRouter)
   {
     path: '/create-challenge',
     name: 'CreateChallenge',
-    component: () => import('../views/CreateChallenge.vue')
+    component: () => import('../views/CreateChallenge.vue'),
+    // beforeEnter : Auth 단계 설정
+  },
+  {
+    path: '/edit-challenge',
+    name: 'EditChallenge',
+    component: () => import('../views/EditChallenge.vue'),
     // beforeEnter : Auth 단계 설정
   },
 ]

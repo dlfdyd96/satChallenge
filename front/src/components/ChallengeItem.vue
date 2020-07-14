@@ -25,12 +25,16 @@
           <v-list-item
             @click="onEditBtn"
           >
-            <v-list-item-title class="grey--text text--darken-1">수정</v-list-item-title>
+            <v-list-item-title class="grey--text text--darken-1">
+              수정
+            </v-list-item-title>
           </v-list-item>
           <v-list-item
             @click="onDelBtn"
           >
-            <v-list-item-title class="red--text">삭제</v-list-item-title>
+            <v-list-item-title class="red--text">
+              삭제
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -235,7 +239,9 @@ export default {
   },
   methods: {
     onEditBtn() {
-      //
+      // CreateChallenge 로 Route
+      // 1. params 다 넘기기
+      this.$router.push({name : 'EditChallenge', params : {challengeId : this.id}})
     },
     onDelBtn() {
       this.dialog = true;
