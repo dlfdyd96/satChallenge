@@ -23,7 +23,7 @@ quizRouter.get(routes.readQuiz(),
 )
 
 // [post] Update Quiz
-quizRouter.post(routes.updateQuiz(), 
+quizRouter.post(routes.updateQuiz, 
   passport.authenticate('jwt', {session : false}),
   postUpdateQuiz
 )

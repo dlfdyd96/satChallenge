@@ -102,6 +102,7 @@ export const getDeleteChallenge = async (req, res, next) => {
       throw 'Not Author'
 
     await Challenge.findByIdAndDelete({_id: id});
+    await Quiz.deleteMany({challenge : id});
     res.status(200).json({message : "Success Delete Challenge"})
   } catch(err) {
     console.log(err);

@@ -11,7 +11,7 @@
         >
           <v-col cols="12">
             <div class="d-flex pa-2">
-              <span class="text-h2 font-weight-regular">E</span>
+              <span class="text-h2 font-weight-normal">E</span>
               <div class="d-flex align-end">
                 <span class="text-h3">dit challenge</span>
               </div>
@@ -328,7 +328,7 @@ export default {
 
 
       let challengeId = ''
-      await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/create`, challenge)
+      await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}/update`, challenge)
       .then((res) => {
         console.log(res);
         challengeId = res.data.newChallenge._id;
@@ -342,10 +342,10 @@ export default {
 
       // 2. 모든 문제들을 challenge id에 연결하여 db register
       // 2020-07-13 16:46
-      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, 
+      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
         {
             quizzes : this.quizzes, 
-            challenge : challengeId
+            challengeId
         }
       )
       .then((res) => {
@@ -356,9 +356,7 @@ export default {
         let msg = err.response.data.err.errors
         if(msg)
           window.alert(msg)
-        return;
       })
-
       // home 으로 이동
       this.$router.push('/');
     },
@@ -376,13 +374,15 @@ export default {
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${this.challengeId}`)
     .then(({data : {selectedChallenge, selectedQuizzes}}) => {
       console.log(selectedChallenge, selectedQuizzes);
+      this.challengeTitle = selectedChallenge.title
+      
+      this.quizzes = selectedQuizzes
+      this.quizzes.forEach(item => item.day = item.day.substr(0, 10))
     })
     .catch((err) => {
       console.dir(err.response);
       return;
     })
-
-
   },
   destroyed () {
     console.log('Life Cycle : "EditChallenge.vue" is detropyed');

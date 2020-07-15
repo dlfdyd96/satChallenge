@@ -236,6 +236,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
+    console.log('Destory Challenge Item');
   },
   methods: {
     onEditBtn() {
@@ -251,7 +252,7 @@ export default {
     },
     onRemoveDialog(){
       this.$emit('onRemoveDialog', this.id);
-      this.$destroy();
+      // this.$destroy();
     },
   },
 }

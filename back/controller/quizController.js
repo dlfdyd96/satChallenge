@@ -9,10 +9,7 @@ export const postCreateQuiz = async (req, res, next) => {
     },
   } = req;
   try {
-    // console.log(req);
-    // quizzes = [ { }, { }, ...]
-    // console.log('challenge ID : ', challengeId)
-    // console.log('quizzes : ', quizzes)
+    console.log(`challengeId: ${challengeId}`)
     await Promise.all(
       quizzes.map((quiz) => {
         Quiz.create({
@@ -58,8 +55,10 @@ export const getReadQuiz = async (req, res, next) => {
 // U
 export const postUpdateQuiz = async (req, res, next) => {
   const {
-    body,
-    params : {id},
+    body : {
+      quizzes,
+      challengeId
+    },
     user
   } = req;
   try {
@@ -67,12 +66,25 @@ export const postUpdateQuiz = async (req, res, next) => {
     const selectedQuiz = await Quiz.findById({_id:id});
     if(selectedQuiz.creator !== user._id)
       throw 'Not Author'
+    
+    // 1. challengeId에 해당하는 Quiz 삭제
+    await Quiz.deleteMany({challenge: challengeId})
 
-    const updatedQuiz = await Quiz.findOneAndUpdate({_id : id}, body);
+    // 2. 다시 Create
+    await Promise.all(
+      quizzes.map((quiz) => {
+        Quiz.create({
+          creator : req.user._id,
+          challenge : challengeId,
+          ...quiz
+        })
+      })
+    )
+
+    // const updatedQuiz = await Quiz.findOneAndUpdate({_id : id}, body);
     res.status(200).json ({
-      message : "Success Update Quiz",
-      updatedQuiz
-    })
+      message : "Success Update Quiz"
+    }) 
   } catch(err){ 
     console.log(`Failed to Update Quiz ${err}`);
     res.status(400).json({

@@ -47,6 +47,7 @@
         </v-col>
       </v-row>
       <v-row>
+        <!-- 
         <v-col cols="12" sm="6" md="4">
           <challenge 
             :startTime='new Date("2020-10-18T00:00:00")'
@@ -64,7 +65,7 @@
             :problems='23'
             :users='1'
           />
-        </v-col>
+        </v-col> -->
         <v-col cols="12" sm="6" md="4"
           v-for="(item, index) in challenges"
           :key="index"
@@ -109,7 +110,7 @@ export default {
   created () {
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge`)
     .then(({data : {challenges}}) => {
-      console.log('all challenge',challenges)
+      console.log('all challenge', challenges)
       this.challenges = [...challenges]
     })
     .catch((err) => {
@@ -133,7 +134,8 @@ export default {
         return element._id !== challengeId
       })
       this.challenges = filter
-      
+
+
       axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}/delete`)
       .then((res) => {
         console.log(res)
@@ -141,6 +143,8 @@ export default {
       .catch((err) => {
         console.dir(err) 
       })
+
+      console.log(this.challenges)
 
     }
   },

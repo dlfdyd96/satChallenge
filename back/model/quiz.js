@@ -23,7 +23,8 @@ const quizSchema = new mongoose.Schema({
   },
   challenge : {
     type: mongoose.Schema.Types.ObjectId,
-    ref : "Challenge"
+    ref : "Challenge",
+    required : "Challenge is required",
   },
   creator : {
     type: mongoose.Schema.Types.ObjectId,

@@ -11,17 +11,18 @@ const USER_DETAIL = "/:id"
 const USER_EDIT = "/edit-profile"
 const CHANGE_PASSWORD = "/change-password"
 
-// challenges
+// challenge
 const CHALLENGES = "/"
 const CREATE_CHALLENGE = "/create"
 const READ_CHALLENGE = "/:id"
 const UPDATE_CHALLENGE = "/:id/update"
 const DELETE_CHALLENGE = "/:id/delete"
 
-// quizzes
+// quiz
+
 const CREATE_QUIZ = "/create"
 const READ_QUIZ = "/:id"
-const UPDATE_QUIZ = "/:id/update"
+const UPDATE_QUIZ = "/update"
 const DELETE_QUIZ = "/:id/delete"
 
 // subMitQuiz
@@ -72,11 +73,7 @@ const routes = {
       return `/${id}`
     return READ_QUIZ
   },
-  updateQuiz : id => {
-    if (id)
-      return `/${id}/update`
-    return UPDATE_QUIZ
-  },
+  updateQuiz : UPDATE_QUIZ,
   deleteQuiz : id => {
     if (id)
       return `/${id}/delete`

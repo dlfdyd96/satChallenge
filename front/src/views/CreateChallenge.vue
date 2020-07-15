@@ -341,10 +341,11 @@ export default {
 
       // 2. 모든 문제들을 challenge id에 연결하여 db register
       // 2020-07-13 16:46
+      console.log(`challengeId : ${challengeId}`)
       axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, 
         {
             quizzes : this.quizzes, 
-            challenge : challengeId
+            challengeId
         }
       )
       .then((res) => {
