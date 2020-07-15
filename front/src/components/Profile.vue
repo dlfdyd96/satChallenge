@@ -12,15 +12,15 @@
           size="62"
         >
             <v-img 
-              v-if="representLang"
-            :src="require(`../assets/${representLang}.png`)" :alt="representLang"></v-img>
+              v-if="userInfo"
+            :src="require(`../assets/${userInfo.representLang}.png`)" :alt="userInfo.representLang"></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="text-h5">
-            {{name}}
+            {{userInfo ? userInfo.username : ''}}
           </v-list-item-title>
           <v-list-item-subtitle class="text-subtitle-1">
-            {{email}}
+            {{userInfo ? userInfo.email : ''}}
           </v-list-item-subtitle>
           <v-list-item-subtitle>
             <router-link to="/edit-profile">Edit Profile</router-link>
@@ -32,28 +32,12 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
-  data() {
-    return {
-      name: undefined,
-      email : undefined,
-      representLang : null
-    }
-  },
-  created () {
-    axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/user/me`)
-    .then(({data : {userInfo}}) => {
-      console.log(userInfo)
-      this.name = userInfo.username;
-      this.email = userInfo.email;
-      this.representLang = userInfo.representLang;
-    })
-    .catch((err) => console.log(err))
-  },
-  methods: {
-
+  props: {
+    userInfo: {
+      type: Object,
+      default: null,
+    },
   },
 }
 </script>

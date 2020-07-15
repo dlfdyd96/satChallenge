@@ -344,8 +344,8 @@ export default {
       // 2020-07-13 16:46
       axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
         {
-            quizzes : this.quizzes, 
-            challengeId
+          quizzes : this.quizzes, 
+          challengeId
         }
       )
       .then((res) => {

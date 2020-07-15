@@ -11,7 +11,7 @@
       </v-row>
       <v-row align="stretch">
         <v-col cols="12" md="8">
-          <profile/>
+          <profile :userInfo="userInfo ? userInfo: null"/>
         </v-col>
         
         <v-col  v-if="languageComplete" cols="4">
@@ -77,8 +77,10 @@
             :problems='item.problems'
             :users='item.challengers.length'
             :id='item._id'
+            :_isJoin="isJoinedChallenge(item._id)"
             @onRemoveDialog="onRemoveDialog"
             @endTime="endTime"
+            @onJoin="onJoin"
           />
         </v-col>
       </v-row>
@@ -103,11 +105,26 @@ export default {
   data() {
     return {
       languageComplete: false,
-      challenges : []
-
+      challenges : [],
+      userInfo : null,
     }
   },
   created () {
+    
+    axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/user/me`)
+    .then(({data : {userInfo}}) => {
+      console.log(userInfo)
+      this.userInfo = userInfo
+      /*
+        this.name = userInfo.username;
+        this.email = userInfo.email;
+        this.representLang = userInfo.representLang;
+      */
+
+    })
+    .catch((err) => console.log(err))
+
+    
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge`)
     .then(({data : {challenges}}) => {
       console.log('all challenge', challenges)
@@ -127,7 +144,12 @@ export default {
   },
   methods: {
     endTime() {
-      console.log('ㅎㅇ')
+      // TODO : endTime 발생하면 무엇을 하실 겁니까
+    },
+    isJoinedChallenge(id) {
+      if(this.userInfo === null)
+        return false
+      return this.userInfo.joinedChallenge.includes(id+'')
     },
     onRemoveDialog(challengeId) {
       const filter = this.challenges.filter((element) => {
@@ -144,8 +166,27 @@ export default {
         console.dir(err) 
       })
 
-      console.log(this.challenges)
+      // console.log(this.challenges)
+    },
+    onJoin(id) {
+      console.log('click Join!', id)
+      this.userInfo.joinedChallenge.push(id)
 
+
+      // axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/user/edit-profile`, { ...this.userInfo })
+      // .then(res => {
+      //   console.log(res)
+      //   this.$router.push(`/challenge/${id}`)
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      // })
+      axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${id}/join`)
+      .then(res => {
+        console.log(res)
+        this.$router.push(`/challenge/${id}`)
+      })
+      .catch(err => console.dir(err));
     }
   },
 }

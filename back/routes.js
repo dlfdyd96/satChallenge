@@ -17,9 +17,9 @@ const CREATE_CHALLENGE = "/create"
 const READ_CHALLENGE = "/:id"
 const UPDATE_CHALLENGE = "/:id/update"
 const DELETE_CHALLENGE = "/:id/delete"
+const JOIN_CHALLENGE = "/:id/join"
 
 // quiz
-
 const CREATE_QUIZ = "/create"
 const READ_QUIZ = "/:id"
 const UPDATE_QUIZ = "/update"
@@ -64,6 +64,11 @@ const routes = {
     if (id)
       return `/${id}/delete`
     return DELETE_CHALLENGE
+  },
+  joinChallenge : id => {
+    if(id)
+      return `/${id}/join`
+    return JOIN_CHALLENGE
   },
 
   // SUBMIT_quiz

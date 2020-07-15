@@ -133,11 +133,20 @@
         </div>
         <div class="mt-5">
           <v-btn 
+            v-if="_isJoin"
             width="100%"
-            :to='`/challenge/${id}`'
-            :disabled="endTime"
+            @click="onEnter"
+            :disabled="endTime && !_isJoin"
           >
-            Join
+            Enter class
+          </v-btn>
+          <v-btn 
+            v-else
+            width="100%"
+            @click="onJoin"
+            :disabled="endTime && !_isJoin"
+          >
+            {{endTime ? 'Expired' : 'Join Class'}}
           </v-btn>
         </div>
       </v-card-text>
@@ -176,6 +185,10 @@ export default {
     id : {
       type: String,
       default: '1',
+    },
+    _isJoin : {
+      type: Boolean,
+      default : false,
     }
   },
   computed: {
@@ -201,13 +214,16 @@ export default {
       now : Date.now(),
       timer : null,
       endTime : false,
+      isJoin : false,
 
       //dialog
       dialog : false,
+      // join / Enter 
     }
   },
   created () {
     // this.startTime = new Date('2021-02-04T00:00:00');
+    this.isJoin = this._isJoin
   },
   watch : {
     startTime : {
@@ -252,8 +268,16 @@ export default {
     },
     onRemoveDialog(){
       this.$emit('onRemoveDialog', this.id);
-      // this.$destroy();
+      this.dialog = false;
     },
+    onJoin() {
+      console.log('Child onJoin()')
+      this.$emit('onJoin', this.id)
+    },
+    onEnter() {
+      console.log('Child onEnter()')
+      this.$router.push(`/challenge/${this.id}`)
+    }
   },
 }
 </script>

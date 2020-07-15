@@ -90,7 +90,7 @@ export const getMe = async (req, res, next) => {
   const {
     user
   } = req;
-  const userInfo = await User.findById({_id : user._id}).populate("joinedChallenge");
+  const userInfo = await User.findById({_id : user._id});
   res.status(200).json({
     userInfo,
   })
@@ -166,7 +166,7 @@ export const postUpdatePassword = async (req, res, next) => {
 
 // Edit Profile
 export const postEditProfile = async (req, res) => {
-  const { body, user } = req;
+  const { body } = req;
   console.log(body);
   try {
 

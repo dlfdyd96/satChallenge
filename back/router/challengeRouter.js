@@ -7,6 +7,7 @@ import {
   postCreateChallenge,
   postUpdateChallenge,
   getDeleteChallenge,
+  getJoinChallenge,
 } from '../controller/challengeController.js'
 
 const challengeRouter = express.Router()
@@ -37,6 +38,11 @@ challengeRouter.get(routes.deleteChallenge(),
   getDeleteChallenge
 )
 
+// [get] join Challenge
+challengeRouter.get(routes.joinChallenge(),
+  passport.authenticate('jwt', {session : false}),
+  getJoinChallenge
+)
 
 
 export default challengeRouter

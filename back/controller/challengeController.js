@@ -1,5 +1,6 @@
 import Challenge from '../model/challenge';
 import Quiz from '../model/Quiz';
+import User from '../model/User';
 
 export const getAllChallenges =  async (req, res, next) => {
   try {
@@ -47,7 +48,7 @@ export const getReadChallenge = async (req, res, next) => {
   try {
       const selectedChallenge = await Challenge.findById(id)
           .populate("creator") // 사용자 정보 얻어오기
-      const selectedQuizzes = await Quiz.find()
+      const selectedQuizzes = await Quiz.find({challenge: id})
       
       // console.log(`selectedQuizzes : ${selectedQuizzes}`)
       res.status(200).json({
@@ -107,5 +108,29 @@ export const getDeleteChallenge = async (req, res, next) => {
   } catch(err) {
     console.log(err);
     res.status(400).json({err})
+  }
+}
+
+// join Challenge
+// challenge/:id/join
+export const getJoinChallenge = async (req, res, next) => {
+  const {
+    user,
+    params : { id } // challenge Id
+  } = req;
+  try {
+    // User Model - joinedChallenge 추가
+    user.joinedChallenge.push(id)
+    const selectedChallenge = await Challenge.findById(id);
+    selectedChallenge.challengers.push(user._id);
+    await User.findOneAndUpdate({_id:user._id}, {joinedChallenge : user.joinedChallenge})
+    await Challenge.findOneAndUpdate({_id:id}, {challengers : selectedChallenge.challengers })
+    res.status(200).json({
+      message : "Success Join Challenge"
+    })
+    // Challenge Model - Challengers 추가
+  }catch(err) {
+    console.log(err);
+    res.status(400).send({err})
   }
 }
