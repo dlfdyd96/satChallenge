@@ -7,7 +7,6 @@ import app from './app.js';
 dotenv.config();
 
 // Models
-// import './models/User.js';
 
 app.listen(process.env.WORKING_ON === "DEV" ?
     process.env.DEV_PORT

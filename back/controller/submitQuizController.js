@@ -1,4 +1,4 @@
-import SubmitQuiz from '../model/submitQuiz';
+import SubmitQuiz from '../model/SubmitQuiz';
 
 // C
 export const postCreateSubmitQuiz = async (req, res, next) => {

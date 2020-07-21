@@ -21,7 +21,7 @@
         </router-link>
         <span class="d-none d-sm-inline">
           <span class="mx-5">|</span>
-          <span>
+          <span class="text-sm-h5 text-lg-h4 ">
             Algorithm Challenges
           </span>
         </span>
@@ -31,11 +31,11 @@
 
       <div class="hidden-sm-and-down">
         <!-- About -->
-        <v-btn text class="white--text mx-2 text-md-h5 text-sm-h6 text-h6" large to="/about">
+        <v-btn text class="white--text mx-2 text-h6" large to="/about">
           About
         </v-btn>
         <!-- FAQ -->
-        <v-btn text class="white--text mx-2 text-md-h5 text-sm-h6 text-h6" large to="/faq">
+        <v-btn text class="white--text mx-2 text-h6" large to="/faq">
           FAQ
         </v-btn>
         <!-- Login -->
@@ -76,16 +76,55 @@
     >
       <v-list class="mt-3">
         <v-list-item-group>
-          <v-list-item
-            v-for="(item, index) in drawerItems"
-            :key="index"
-            :to="item.route"
-          >
+          <v-list-item to="/">
             <v-list-item-icon>
-              <v-icon>{{item.icon}}</v-icon>
+              <v-icon>fas fa-home</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-title>HOME</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          
+          
+          <v-list-item 
+            to="/login"
+            v-if="!isAuthenticated"
+          >
+            <v-list-item-icon>
+              <v-icon>fas fa-sign-in-alt</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>LOGIN</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item 
+            @click.prevent="onClickLogout"
+            v-else  
+          >
+            <v-list-item-icon>
+              <v-icon>fas fa-sign-out-alt</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>LOGOUT</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item to="/about">
+            <v-list-item-icon>
+              <v-icon>fas fa-info-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>ABOUT</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item to="/faq">
+            <v-list-item-icon>
+              <v-icon>fas fa-question-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>FAQ</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -102,28 +141,38 @@ export default {
   data() {
     return {
       drawer: false,
-      drawerItems : [
-        {
+      drawerItems : {
+        home : {
           icon : 'fas fa-home',
           title : 'HOME',
           route : '/',
         },
-        {
-          icon : 'fas fa-sign-in-alt',
-          title : 'LOGIN',
-          route : '/login',
+        auth : {
+
         },
-        {
+          /*
+          login : {
+            icon :  'fas fa-sign-in-alt' ,
+            title :  'LOGIN',
+            route :  '/login',
+          },
+          
+          logout : {
+            icon : 'fas fa-sign-out-alt',
+            title : 'LOGOUT',
+            route : '/logout',
+          },*/
+        about : {
           icon : 'fas fa-info-circle',
           title : 'ABOUT',
           route : '/about',
         },
-        {
+        faq : {
           icon : 'fas fa-question-circle',
           title : 'FAQ',
           route : '/faq',
         },  
-      ],
+      },
     }
   },
   watch: {
@@ -139,6 +188,13 @@ export default {
     onClickLogout() {
       this.LOGOUT();
       this.$router.push('/login')
+    },
+    loginOrLogout() {
+      if (!this.isAuthenticated){
+        return {
+          
+        }
+      }
     }
   },
 }

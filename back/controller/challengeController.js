@@ -1,4 +1,4 @@
-import Challenge from '../model/challenge';
+import Challenge from '../model/Challenge';
 import Quiz from '../model/Quiz';
 import User from '../model/User';
 
