@@ -1,45 +1,61 @@
 <template>
   <div>
     <!-- title -->
-    <div class="challenge__title d-flex justify-center align-center text-h3 white--text">
-      {{title}}
+    <div class="challenge__title d-flex justify-center align-center white--text">
+      <!-- main title -->
+      <div class="mx-5">
+        <!-- <span class="title__sat">
+          SAT
+        </span>
+        <span class="title__challenge">
+          Challenge
+        </span> -->
+        <span class="title__sat">
+          S
+        </span>
+        <span class="title__challenge">
+          exy
+        </span>
+        <span class="title__sat">A</span>
+        <span class="title__challenge">
+          lgorithm
+        </span>
+        <span class="title__sat">
+          T
+        </span>
+        <span class="title__challenge">
+          eam
+        </span>
+        <!-- sub title -->
+        <div class="title__sub">
+          S.A.T는 Special Algorithm Team의 약자로<br class="d-sm d-md-none"> SW 분야 취업에 필요한 알고리즘을 공부하는 동아리입니다.
+        </div>
+      </div>
+      
     </div>
-    <v-container class="items__container">
-      <!-- 3 item -->
+    <v-container>
+      <!-- About -->
+      <v-row class="mt-10">
+        <v-col>
+          <div class="text-h4 mb-5">
+            알고리즘을 공부하는 당신...
+          </div>
+          <div>
+            <span class="text-h2 font-weight-medium orange--text">SAT Challenge</span>
+            <span class="text-h3"> 와 함께 할래요?</span>
+          </div>
+        </v-col>
+      </v-row>
+      <!-- divider -->
       <v-row>
-        <v-col 
-          cols="12"
-          sm="4"
-          v-for="(item, index) in descriptionItems"
-          :key="index"
-        >
-          <v-card>
-            <v-list>
-              <v-list-item>
-                <v-list-item-avatar 
-                  tile
-                  color="blue-grey lighten-1"
-                  class="rounded-lg"
-                >
-                  <v-icon color="white">
-                    {{item.icon}}
-                  </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{item.subTitle}}</v-list-item-subtitle>
-                  <v-list-item-title 
-                    class="text-h6 font-weight-regular"
-                  >
-                    {{item.text}}
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
+        <v-col>
+          <div class="d-flex justify-center mt-15 mb-10 about__divider">
+            <span v-for="style in divider_style" :key="style" class="mx-2 mt-15 mb-10" :style="style"></span>
+          </div>
         </v-col>
       </v-row>
       <!-- 설명 -->
-      <v-row class="mt-15">
+      <v-row class="mt-10">
         <!-- 이렇게 공부합니다. -->
         <v-col cols="12">
           <div class="d-flex justify-center text-h4 font-weight-bold">
@@ -106,6 +122,28 @@ export default {
           text : '8 challengers',
           subTitle : '참여자',
         },
+      ],
+      divider_style : [
+        {
+          backgroundColor : 'rgb(255, 218, 97)',
+          width : '20px'
+        },
+        {
+          backgroundColor : '#aad76d',
+          width : '80px'
+        },
+        {
+          backgroundColor : 'rgb(238, 95, 120)',
+          width : '30px'
+        },
+        {
+          backgroundColor : 'rgb(69, 197, 207)',
+          width : '30px'
+        },
+        {
+          backgroundColor : 'rgb(64, 62, 65)',
+          width : '30px'
+        },
       ]
     }
   },
@@ -117,11 +155,39 @@ export default {
 
 <style scoped>
 .challenge__title {
-  height: 250px;
+  height: 500px;
   width: 100%;
-  background-color: green;
+  background:  linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/about1.jpg') no-repeat center center;
+  background-size: cover;
 }
-.items__container {
-  margin-top: -50px;
+@media screen and (max-width: 600px) {
+  .title__sat {
+    letter-spacing: 5px;
+    font-size: 60px;
+  }
+  .title__challenge {
+    font-size: 40px;
+  }
+  .title__sub {
+    font-size: 17px;
+  }
+}
+@media screen and (min-width: 601px) {
+  .title__sat {
+    font-size: 80px;
+    letter-spacing: -10px;
+  }
+  .title__challenge {
+    font-size: 50px;
+    margin-right: 15px;
+  }
+  .title__sub {
+    font-size: 20px;
+  }
+}
+.about__divider > span {
+  height: 8px;
+  border-radius: 10px;
+  /* background-color: ; */
 }
 </style>

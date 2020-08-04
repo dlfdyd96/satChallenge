@@ -73,7 +73,11 @@
                 <v-card
                   rounded
                 >
-                  <v-card-title><span class="text-h4 ma-3">{{selectedDay}}</span></v-card-title>
+                  <v-card-title>
+                    <span class="grey--text">~</span>
+                    <span class="text-md-h4 ma-3 text-h6">{{selectedDay}}</span>
+                    <span></span>
+                  </v-card-title>
                   <v-divider class="mx-4"></v-divider>
                   <v-card-text class="black--text ">
                     <v-form
@@ -270,8 +274,6 @@ export default {
       this.quizzes.forEach(quiz => {
         let [yearItem, monthItem, dayItem] = quiz.day.split('-');
         if(yearItem === year && monthItem === month && dayItem === day){
-          console.log('추가됨', date)
-          // return ['red']
           flag = 'pink';
         }
       });

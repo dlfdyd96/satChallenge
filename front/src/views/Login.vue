@@ -90,7 +90,10 @@ export default {
       this.$store.dispatch('LOGIN', {email, password})
         .then(() => this.redirect())
         // .catch((err) => console.dir(err))
-        .catch((err) =>console.dir(err))
+        .catch((err) => {
+          // console.dir(err)
+          window.alert(`${err.response.data.message}`)
+        })
     },
     redirect() {
       this.$router.push({name: 'Home'})

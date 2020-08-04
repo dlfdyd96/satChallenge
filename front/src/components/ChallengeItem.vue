@@ -3,7 +3,7 @@
     <v-card>
 
       <!-- Auth Menu -->
-      <v-menu>
+      <v-menu v-if="isAdmin">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             absolute
@@ -189,24 +189,28 @@ export default {
     _isJoin : {
       type: Boolean,
       default : false,
+    },
+    isAdmin : {
+      type : Boolean,
+      default: false,
     }
   },
   computed: {
     day() {
       let d = Math.trunc((this.startTime - this.now) / 1000 / 3600 / 24);
-      return d;
+      return d < 0 ? 0 : d;
     },
     hour(){
       let h = Math.trunc((this.startTime - this.now) / 1000 / 3600) % 24;
-      return h>9?h:'0'+h;
+      return h < 0 ? 0 : ( h>9?h:'0'+h );
     },
     min(){
       let m = Math.trunc((this.startTime - this.now) / 1000 / 60) % 60;
-      return m>9?m:'0'+m;
+      return m < 0 ? 0 : (m>9?m:'0'+m);
     },
     sec(){
       let s = Math.trunc((this.startTime - this.now)/1000) % 60
-      return s>9?s:'0'+s;
+      return s < 0 ? 0 : (s>9?s:'0'+s);
     }
   },
   data() {
@@ -252,7 +256,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
-    console.log('Destory Challenge Item');
+    // console.log('Destory Challenge Item');
   },
   methods: {
     onEditBtn() {
@@ -271,11 +275,11 @@ export default {
       this.dialog = false;
     },
     onJoin() {
-      console.log('Child onJoin()')
+      // console.log('Child onJoin()')
       this.$emit('onJoin', this.id)
     },
     onEnter() {
-      console.log('Child onEnter()')
+      // console.log('Child onEnter()')
       this.$router.push(`/challenge/${this.id}`)
     }
   },

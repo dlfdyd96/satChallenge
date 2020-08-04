@@ -29,7 +29,7 @@
         </v-col>
         
         <!-- create challenge 버튼 -->
-        <v-col cols="4">
+        <v-col v-if="isAdmin" cols="4">
           <div class="d-flex justify-end">
             <v-btn 
               rounded color="light-green lighten-2" class="white--text text-md-h5 text-sm-h6 text-h6"
@@ -78,6 +78,7 @@
             :users='item.challengers.length'
             :id='item._id'
             :_isJoin="isJoinedChallenge(item._id)"
+            :isAdmin="isAdmin"
             @onRemoveDialog="onRemoveDialog"
             @endTime="endTime"
             @onJoin="onJoin"
@@ -107,6 +108,7 @@ export default {
       languageComplete: false,
       challenges : [],
       userInfo : null,
+      isAdmin : false,
     }
   },
   created () {
@@ -115,6 +117,7 @@ export default {
     .then(({data : {userInfo}}) => {
       console.log(userInfo)
       this.userInfo = userInfo
+      this.isAdmin = userInfo.admin
       /*
         this.name = userInfo.username;
         this.email = userInfo.email;
@@ -127,7 +130,7 @@ export default {
     
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge`)
     .then(({data : {challenges}}) => {
-      console.log('all challenge', challenges)
+      // console.log('all challenge', challenges)
       this.challenges = [...challenges]
     })
     .catch((err) => {
@@ -159,8 +162,8 @@ export default {
 
 
       axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}/delete`)
-      .then((res) => {
-        console.log(res)
+      .then((/*res*/) => {
+        // console.log(res)
       })
       .catch((err) => {
         console.dir(err) 
@@ -169,7 +172,7 @@ export default {
       // console.log(this.challenges)
     },
     onJoin(id) {
-      console.log('click Join!', id)
+      // console.log('click Join!', id)
       this.userInfo.joinedChallenge.push(id)
 
 
@@ -182,8 +185,8 @@ export default {
       //   console.log(err)
       // })
       axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${id}/join`)
-      .then(res => {
-        console.log(res)
+      .then((/*res*/) => {
+        // console.log(res)
         this.$router.push(`/challenge/${id}`)
       })
       .catch(err => console.dir(err));

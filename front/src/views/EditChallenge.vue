@@ -240,6 +240,11 @@ export default {
 
       // createChallenge
       bodyForm : false,
+
+      // onEditBTn Click
+      updateList : [],
+      addList : [],
+      deleteList : [],
     }
   },
   computed: {
@@ -271,7 +276,6 @@ export default {
       this.quizzes.forEach(quiz => {
         let [yearItem, monthItem, dayItem] = quiz.day.split('-');
         if(yearItem === year && monthItem === month && dayItem === day){
-          console.log('추가됨', date)
           // return ['red']
           flag = 'pink';
         }
@@ -285,10 +289,11 @@ export default {
       // const [,, day] = date.split('-');
     },
     onSubmit() {
-      this.quizzes.push({...this.selectedItem})
+      this.quizzes.push({...this.selectedItem});
       this.quizzes.sort((a, b) => {
         return new Date(a.day) - new Date(b.day)
-      })
+      });
+      this.addList.push({...this.selectedItem});
       this.onClose();
     },
     onClose() {
@@ -302,8 +307,9 @@ export default {
       this.selectedItem = {...this.quizzes[index]};
     },
     onSubmitEdit() {
-      console.log(this.selectedItem)
-      this.quizzes[this.editFlag] = {...this.selectedItem}
+      console.log(this.selectedItem);
+      this.quizzes[this.editFlag] = {...this.selectedItem};
+      this.updateList.push({...this.selectedItem});
       this.editFlag = false;
       this.onClose();
     },
@@ -326,9 +332,8 @@ export default {
         problems,
       };
 
-
       let challengeId = ''
-      await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}/update`, challenge)
+      await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${this.challengeId}/update`, challenge)
       .then((res) => {
         console.log(res);
         challengeId = res.data.newChallenge._id;
@@ -336,13 +341,12 @@ export default {
       })
       .catch((err) => {
         console.dir(err);
-        window.alert(err);
         return;
       })
 
       // 2. 모든 문제들을 challenge id에 연결하여 db register
       // 2020-07-13 16:46
-      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
+      /* await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
         {
           quizzes : this.quizzes, 
           challengeId
@@ -356,12 +360,37 @@ export default {
         let msg = err.response.data.err.errors
         if(msg)
           window.alert(msg)
-      })
+      }) */
+      await Promise.all(
+        [ axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, 
+            {
+              quizzes : this.addList, 
+              challengeId : this.challengeId
+            }).catch(err => err), 
+            ...this.updateList.map(item => {
+              return axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
+                {
+                  quiz : item, 
+                  challengeId : this.challengeId
+                }).catch(err => err)
+            }),
+            ...this.deleteList.map(item=> {
+              return axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, { id : item._id }).catch(err => err)
+            })
+        ]
+      ).then(res => {
+        console.log(`sucess ${res}`)
+      }).catch(err => {
+        console.dir(`fail ${err}`)
+        return;
+      }) 
       // home 으로 이동
       this.$router.push('/');
     },
     onDelete(index) {
       console.log(index);
+      if(this.quizzes[index]._id !== undefined)
+        this.deleteList.push({id : this.quizzes[index]._id});
       this.quizzes.splice(index, 1);
     }
   },
@@ -373,9 +402,11 @@ export default {
     // 수정할 challenge 정보 받아오기
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${this.challengeId}`)
     .then(({data : {selectedChallenge, selectedQuizzes}}) => {
-      console.log(selectedChallenge, selectedQuizzes);
+      // console.log(`selectedChallenge : ${selectedChallenge}\nselectedQuizzes : ${selectedQuizzes}`);
+      // 제목
       this.challengeTitle = selectedChallenge.title
       
+      // 퀴즈들
       this.quizzes = selectedQuizzes
       this.quizzes.forEach(item => item.day = item.day.substr(0, 10))
     })

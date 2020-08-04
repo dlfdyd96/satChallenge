@@ -20,8 +20,11 @@ const UserSchema = new mongoose.Schema({
       type : mongoose.Schema.Types.ObjectId,
       ref : "Challenge"
     }
-  ],
-
+  ], 
+  admin: {
+    type : Boolean,
+    default : false,
+  },
 })
 
 UserSchema.plugin(passportLocalMongoose, { usernameField: "email" });

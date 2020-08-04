@@ -51,9 +51,9 @@
             v-for="(item, index) in todayAssignment"
             :key="index"
           >
-            Quiz {{item + 1}}. {{item.title}}
+            Quiz {{index + 1}}. {{item.title}}
             <div class="ml-2">
-              - {{item.description}}
+              {{item.description}}
             </div>
             <div class="d-flex ">
               <v-text-field outlined class="pa-2">
@@ -88,95 +88,6 @@
                 height="15"
               >
               </v-progress-linear>
-            </div>
-          </v-col>
-        </v-row>
-        <!-- calendar -->
-        <v-row>
-          <v-col>
-            <div class="text-h5 font-weight-bold blue-grey--text text--darken-2 mt-5">
-              📅 Calendar
-            </div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <div class="d-flex justify-center">
-              <!-- 달력 -->
-              <v-date-picker
-                v-model="picker"
-                full-width
-                show-current
-                @click:date="clickDate"
-                :events="functionEvents"
-                next-icon="fas fa-chevron-right"
-                prev-icon="fas fa-chevron-left"
-              >
-              </v-date-picker>
-
-              <!-- dialog -->
-              <v-dialog
-                v-model="dialog"
-                persistent
-                max-width="50%"
-              >
-                <v-card
-                  rounded
-                >
-                  <v-card-title class="text-h4"> Day {{selectedItem.day}} | Challenge</v-card-title>
-                  <v-card-subtitle class="d-flex justify-end">{{picker}}</v-card-subtitle>
-                  <v-card-text>
-                    <div class="d-flex flex-column">
-                      <div
-                        class="mb-5"
-                        v-for="(item, index) in selectedItem.quizzes"
-                        :key="index"
-                      >
-                        <!-- title -->
-                        <div class="text-h6">
-                          Quiz {{index + 1}}. 
-                          <a :href="item.url" class="black--text">{{item.title}}</a>
-                        </div>
-                        <!-- 문제 설명 -->
-                        <div>
-
-                        </div>
-                        <!-- input, submit -->
-                        <div>
-                          <v-text-field
-                            outlined
-                            placeholder="Github URL"
-                          >
-                          </v-text-field>
-                        </div>
-                        <div class="d-flex justify-end">
-                          <v-btn >
-                            submit
-                          </v-btn>
-                        </div>
-                      </div>
-                    </div>
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary darken-1"
-                      class="text-h6"
-                      text
-                      @click="dialog = false"
-                    >
-                      닫기
-                    </v-btn>
-                  </v-card-actions>
-
-                </v-card>
-              </v-dialog>
-            </div>
-          </v-col>
-          <v-col cols="12">
-            <div>
-              
             </div>
           </v-col>
         </v-row>
@@ -215,89 +126,25 @@ export default {
       // today 
       todayAssignment : [ ],
 
-      // 달력
-      picker : new Date().toISOString().substr(0, 10),
-      schedule : {
-        date : [
-          2, 3, 6, 7, 9, 10, 13, 14, 16, 17,
-        ],
-        complete : [
-          2,
-        ],
-      },
-      
-      // dialog
-      dialog : false,
-      selectedItem : {
-        day : -1,
-        quizzes : [
-          
-        ]
-      },
     }
   },
   created () {
     let challengeId = this.$route.params.id
-    console.log(`${challengeId}`)
+    // console.log(`${challengeId}`)
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}`)
     .then(({data : { selectedChallenge , selectedQuizzes}}) => {
-      console.log(selectedChallenge, selectedQuizzes);
+      // console.log(selectedChallenge, selectedQuizzes);
       
       this.selectedChallenge = selectedChallenge;
       this.selectedQuizzes = selectedQuizzes;
-      this.selectToday();
     })
     .catch((err) => {
       console.dir(err);
     })
   },
   computed: {
-    functionEvents () {
-      return this.dateFunctionEvents;
-    }
   },
   methods: {
-    selectToday() {
-      let todayTime = new Date().toISOString().substr(0,10)
-      this.selectedQuizzes.forEach((element) => {
-        if(todayTime == element.day.substr(0, 10)) 
-          this.todayAssignment.push(element)
-      })
-    },
-    dateFunctionEvents (date) { // 날짜 하나하나 다 검사하는 거네...
-      // const [,, day] = date.split('-')
-      // console.log(date)
-      /*
-      if (this.schedule.date.includes(date))
-        return 'red'
-      // if ([1, 19, 22].includes(parseInt(day, 10))) return ['red', '#00f']
-      return false
-      */
-     // console.log(this.selectedQuizzes)
-      let result = this.selectedQuizzes.some((element) => {
-        return (element.day.substr(0, 10) === date)
-      })
-      if (result)
-        return 'red'
-
-      return false;
-
-
-    },
-    clickDate(date) {
-      // console.log(`클릭 했다. ${date}`);
-      // const [,, day] = date.split('-');\
-      let flag = false;
-      this.selectedItem.quizzes = []
-      this.selectedQuizzes.forEach((element, index) => {
-        if (element.day.substr(0, 10) === date) {
-          this.selectedItem.day = index + 1
-          this.selectedItem.quizzes.push(element)
-          flag = true;
-        }
-      })
-      this.dialog = flag;
-    }
   },
 }
 </script>

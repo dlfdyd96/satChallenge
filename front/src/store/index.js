@@ -19,7 +19,7 @@ export default new Vuex.Store({
     isAuthenticated(state) {
       state.accessToken = state.accessToken || localStorage.accessToken
       return state.accessToken
-    }
+    },
   },
   mutations: {
     LOGIN (state, {accessToken}) {

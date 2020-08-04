@@ -36,6 +36,10 @@ const quizSchema = new mongoose.Schema({
       ref: "User"
     }
   ],
+  admin: {
+    type : Boolean,
+    default : false,
+  },
 });
 
 const model = mongoose.model("Quiz", quizSchema);

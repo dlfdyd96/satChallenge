@@ -25,7 +25,7 @@ Vue.use(VueRouter)
     beforeEnter : (from, to, next) => {
       // console.log({from, to, next})
       if (store.getters.isAuthenticated){
-        console.log('로그인 됨')
+        // console.log('로그인 됨')
         return next()
       }
       next(`/login`)
@@ -45,10 +45,10 @@ Vue.use(VueRouter)
     component: () => import('../views/Login.vue'),
     beforeEnter : (from, to, next) => {
       if(!(store.getters.isAuthenticated)){
-        console.log('로그인 안됨')
+        // console.log('로그인 안됨')
         return next()
       }
-      console.log('로그인 됨')
+      // console.log('로그인 됨')
       next(`/`)
     }
   },
@@ -68,7 +68,7 @@ Vue.use(VueRouter)
     beforeEnter : (from, to, next) => {
       // console.log({from, to, next})
       if (store.getters.isAuthenticated){
-        console.log('로그인 됨')
+        // console.log('로그인 됨')
         return next()
       }
       next(`/login`)

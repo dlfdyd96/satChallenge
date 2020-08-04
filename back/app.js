@@ -7,7 +7,7 @@ import morgan from 'morgan'
 import './passport.js'
 
 import globalRouter from './router/globalRouter.js'
-import userRouter from './router/UserRouter.js'
+import userRouter from './router/userRouter.js'
 import challengeRouter from './router/challengeRouter.js'
 import quizRouter from './router/quizRouter.js'
 import submitQuizRouter from './router/submitQuizRouter.js'

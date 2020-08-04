@@ -1,4 +1,5 @@
 import Quiz from '../model/Quiz';
+import mongoose from 'mongoose';
 
 // C
 export const postCreateQuiz = async (req, res, next) => {
@@ -56,37 +57,24 @@ export const getReadQuiz = async (req, res, next) => {
 export const postUpdateQuiz = async (req, res, next) => {
   const {
     body : {
-      quizzes,
-      challengeId
-    },
-    user
+      quiz,
+    }
   } = req;
   try {
-    // console.log({title, description, routes, date, id});
-    const selectedQuiz = await Quiz.findById({_id:id});
-    if(selectedQuiz.creator !== user._id)
-      throw 'Not Author'
-    
-    // 1. challengeId에 해당하는 Quiz 삭제
-    await Quiz.deleteMany({challenge: challengeId})
-
-    // 2. 다시 Create
-    await Promise.all(
-      quizzes.map((quiz) => {
-        Quiz.create({
-          creator : req.user._id,
-          challenge : challengeId,
-          ...quiz
-        })
+    const existingQuiz = await Quiz.findByIdAndUpdate(
+      {_id:quiz.id},
+      {
+        title : quiz.title,
+        url : quiz.url,
+        description : quiz.description
       })
-    )
 
     // const updatedQuiz = await Quiz.findOneAndUpdate({_id : id}, body);
     res.status(200).json ({
       message : "Success Update Quiz"
     }) 
   } catch(err){ 
-    console.log(`Failed to Update Quiz ${err}`);
+    console.log(`Failed to Update Quiz \n${err}`);
     res.status(400).json({
       message : "Failed to Update Quiz",
       error : err
@@ -100,9 +88,11 @@ export const getDeleteQuiz = async (req, res, next) => {
     params : { id }
   } = req;
   try {
+    /*
     const selectedQuiz = await Quiz.findById({_id:id});
     if(selectedQuiz.creator !== user._id)
       throw 'Not Author'
+    */
 
     await Quiz.findByIdAndDelete({_id: id});
     res.status(200).json({message : "Success Delete Quiz"})

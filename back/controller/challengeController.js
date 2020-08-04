@@ -73,7 +73,8 @@ export const postUpdateChallenge = async (req, res, next) => {
   
   try {
     const selectedChallenge = await Challenge.findById({_id:id});
-    if(selectedChallenge.creator !== user._id)
+    
+    if(selectedChallenge.creator+'' !== user._id+'')
       throw 'Not Author'
 
     const updatedChallenge = await Challenge.findOneAndUpdate({_id : id}, body);
