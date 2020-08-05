@@ -5,17 +5,20 @@
     <v-content class="root">
       <router-view></router-view>
     </v-content>
+    <my-footer/>
   </v-app>
 </template>
 
 <script>
 import Appbar from './components/Appbar'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
 
   components: {
     'app-bar' : Appbar,
+    'my-footer' : Footer,
   },
 
   data: () => ({

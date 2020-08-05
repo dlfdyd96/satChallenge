@@ -46,26 +46,7 @@
           
         </v-col>
       </v-row>
-      <v-row>
-        <!-- 
-        <v-col cols="12" sm="6" md="4">
-          <challenge 
-            :startTime='new Date("2020-10-18T00:00:00")'
-            :title='"2020 여름방학 스터디"'
-            :weeks='4'
-            :problems='38'
-            :users='5'
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <challenge 
-            :startTime="new Date('2021-02-04T00:00:00')"
-            :title="`2021 '신재영'씨 생일`"
-            :weeks='4'
-            :problems='23'
-            :users='1'
-          />
-        </v-col> -->
+      <v-row class="mb-15">
         <v-col cols="12" sm="6" md="4"
           v-for="(item, index) in challenges"
           :key="index"

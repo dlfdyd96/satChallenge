@@ -14,7 +14,7 @@
           S
         </span>
         <span class="title__challenge">
-          exy
+          pecial
         </span>
         <span class="title__sat">A</span>
         <span class="title__challenge">
@@ -46,6 +46,7 @@
           </div>
         </v-col>
       </v-row>
+
       <!-- divider -->
       <v-row>
         <v-col>
@@ -54,8 +55,9 @@
           </div>
         </v-col>
       </v-row>
+
       <!-- 설명 -->
-      <v-row class="mt-10">
+      <v-row class="mb-5">
         <!-- 이렇게 공부합니다. -->
         <v-col cols="12">
           <div class="d-flex justify-center text-h4 font-weight-bold">
@@ -63,36 +65,70 @@
           </div>
         </v-col>
       </v-row>
-      <!-- items -->
       <v-row>
-        <v-col cols="12" sm="4">
-          <div class="d-flex justify-center ma-5">
-            <v-icon class="green pa-2 rounded-lg white--text" size="40">
-              far fa-calendar
-            </v-icon>
+        <v-col cols="12">
+          <div class="d-flex justify-center section1__subtitle grey--text text--darken-1">
+            꾸준한 알고리즘 실력 상승을 위해, 첼린지 사이트가 함께합니다.
           </div>
-          <div class="d-flex justify-center">
-            진도표
-            <!-- 100% 완주를 위한 진도표를 보면서 강의를 시청합니다 -->
-          </div>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <div class="d-flex justify-center ma-5">
-            <v-icon class="green pa-2 rounded-lg white--text" size="40">
-              fas fa-comment
-            </v-icon>
-          </div>
-          <div class="d-flex justify-center">매일 아침 6시 카톡</div>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <div class="d-flex justify-center ma-5">
-            <v-icon class="green pa-2 rounded-lg white--text" size="40">
-              fas fa-check-square
-            </v-icon>
-          </div>
-          <div class="d-flex justify-center">코딩 챌린지</div>
         </v-col>
       </v-row>
+      
+      <!-- items -->
+      <v-row v-for="item in howToList" :key="item">
+        <v-col cols="12">
+          <v-card 
+            flat
+          >
+            <div class="d-flex flex-no-wrap ">
+              <div class="d-flex align-center mx-10">
+                <v-icon class="pa-3 rounded-lg orange white--text" large>{{item.icon}}</v-icon>
+              </div>  
+              <div>
+                <v-card-title
+                  class="headline my-5"
+                >{{item.title}}</v-card-title>
+                <v-card-subtitle class="text-subtitle-1 mb-5">
+                  {{item.text}}
+                </v-card-subtitle>
+              </div>
+
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- divider -->
+      <v-row>
+        <v-col>
+          <div class="d-flex justify-center mt-15 mb-10 about__divider">
+            <span v-for="style in divider_style" :key="style" class="mx-2 mt-15 mb-10" :style="style"></span>
+          </div>
+        </v-col>
+      </v-row>
+
+      <!-- 운영진 -->
+      <v-row class="mb-5">
+        <!-- 이렇게 공부합니다. -->
+        <v-col cols="12">
+          <div class="d-flex justify-center text-h4 font-weight-bold">
+            SAT Staff
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <div class="d-flex justify-center section1__subtitle grey--text text--darken-1">
+            2020, SAT Staff
+          </div>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          
+        </v-col>
+      </v-row>
+
 
     </v-container>
   </div>
@@ -126,7 +162,7 @@ export default {
       divider_style : [
         {
           backgroundColor : 'rgb(255, 218, 97)',
-          width : '20px'
+          width : '40px'
         },
         {
           backgroundColor : '#aad76d',
@@ -134,15 +170,32 @@ export default {
         },
         {
           backgroundColor : 'rgb(238, 95, 120)',
-          width : '30px'
+          width : '20px'
         },
         {
           backgroundColor : 'rgb(69, 197, 207)',
-          width : '30px'
+          width : '50px'
         },
         {
           backgroundColor : 'rgb(64, 62, 65)',
           width : '30px'
+        },
+      ],
+      howToList : [
+        {
+          icon : 'fas fa-users',
+          title : '혼자가 아닌 여러명이 함께 도전',
+          text : '당신은 혼자가 아닙니다. 같이 도전을 함께하는 사람들이 있습니다. 질문이 있으시다면 동아리 카톡방에 부담없이 올리시면 도움을 받으실 수 있을꺼에요!'
+        },
+        {
+          icon : 'fas fa-clipboard-list',
+          title : '수준별 첼린지 참가',
+          text : '자료구조 기초부터 알고리즘 대회 및 IT 기업 코딩테스트 첼린지까지 다양한 첼린지들이 기다리고 있습니다!'
+        },
+        {
+          icon : 'fab fa-discord',
+          title : 'Discord를 통한 세미나 발표',
+          text : '매주 알고리즘 문제 해결 과정과 다양한 토론을 진행하고 있습니다. 동아리 진행에 많은 도움 부탁드립니다!'
         },
       ]
     }
@@ -189,5 +242,8 @@ export default {
   height: 8px;
   border-radius: 10px;
   /* background-color: ; */
+}
+.section1__subtitle {
+  font-size: 20px;
 }
 </style>

@@ -45,7 +45,7 @@
           <v-divider class="my-5"></v-divider>
           <v-row>
             <v-col cols="12">
-              <v-btn width="100%" color="light-green" class="white--text">
+              <v-btn width="100%" color="light-green" class="white--text" disabled>
                 <span class="green font-weight-bold mr-5 pa-1">
                   N
                 </span>
@@ -53,7 +53,7 @@
               </v-btn>
             </v-col>
             <v-col cols="12">
-              <v-btn width="100%" color="yellow" class="brown--text text--darken-1">
+              <v-btn width="100%" color="yellow" class="brown--text text--darken-1" disabled>
                 <span class="brown darken-1 white--text font-weight-bold mr-5 pa-1">
                   K
                 </span>
