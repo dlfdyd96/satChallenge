@@ -130,11 +130,9 @@ export default {
   },
   created () {
     let challengeId = this.$route.params.id
-    // console.log(`${challengeId}`)
+    
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}`)
     .then(({data : { selectedChallenge , selectedQuizzes}}) => {
-      // console.log(selectedChallenge, selectedQuizzes);
-      
       this.selectedChallenge = selectedChallenge;
       this.selectedQuizzes = selectedQuizzes;
     })

@@ -9,9 +9,13 @@ const quizSchema = new mongoose.Schema({
     type: String,
     required : "URL is required",
   },
-  day : {
+  startAt : { //startAt
     type : Date,
     required : "Day is required",
+  },
+  endAt : {
+    type: Date,
+    required : "End Day is required"
   },
   description : {
     type: String,

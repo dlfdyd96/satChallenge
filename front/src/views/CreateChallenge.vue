@@ -4,7 +4,7 @@
       ref="bodyForm"
       v-model="bodyForm"
     >
-      <v-container>
+      <v-container class="my-15">
         <v-row 
           class="white rounded-lg"
           align="center"
@@ -74,9 +74,22 @@
                   rounded
                 >
                   <v-card-title>
-                    <span class="grey--text">~</span>
-                    <span class="text-md-h4 ma-3 text-h6">{{selectedDay}}</span>
-                    <span></span>
+                    <span class="text-md-h5 text-h6">{{selectedDay}}</span>
+                    <span class="grey--text mx-4">~</span>
+                    <!-- dropdown -->
+                    <span>
+                      <v-select
+                        v-model="selectedItem.endAt"
+                        :items="dropDownItems"
+                        full-width
+                        append-icon="fas fa-caret-down"
+                        label="기간"
+                        single-line
+                        item-text="text"
+                        item-value="value"
+                        :rules="[rules.required]"
+                      ></v-select>
+                    </span>
                   </v-card-title>
                   <v-divider class="mx-4"></v-divider>
                   <v-card-text class="black--text ">
@@ -96,6 +109,7 @@
                               dense
                               v-model="selectedItem.title"
                               :rules="[rules.required]"
+                              outlined
                             ></v-text-field>
                           </v-col>
                         </v-row>
@@ -110,6 +124,7 @@
                               dense
                               v-model="selectedItem.url"
                               :rules="[rules.required]"
+                              outlined
                             ></v-text-field>
                           </v-col>
                         </v-row>
@@ -169,7 +184,7 @@
           >
             <v-row>
               <v-col
-                v-if="item.day === picker"
+                v-if="item.startAt === picker"
               >
                 <v-card>
                   <v-card-title>
@@ -228,7 +243,8 @@ export default {
       // dialog
       dialog : false,
       selectedItem : {
-        day : '',
+        startAt : '',
+        endAt : '',
         title : '',
         url : '',
         description : '',
@@ -240,6 +256,9 @@ export default {
       },
         //edit
       editFlag : false,
+        // drodwon
+      dropDownItems : [{ text : '당일(23:59 종료)', value : 0}],
+      dropdownSelect : { text : '당일(23:59 종료)', value : 0},
 
       // createChallenge
       bodyForm : false,
@@ -250,7 +269,7 @@ export default {
       return this.dateFunctionEvents;
     },
     selectedDay() {
-      const [,month,day] = this.selectedItem.day.split('-');
+      const [,month,day] = this.selectedItem.startAt.split('-');
       return `${month}월 ${day}일`
     }
   },
@@ -272,7 +291,7 @@ export default {
       let flag = false;
 
       this.quizzes.forEach(quiz => {
-        let [yearItem, monthItem, dayItem] = quiz.day.split('-');
+        let [yearItem, monthItem, dayItem] = quiz.startAt.split('-');
         if(yearItem === year && monthItem === month && dayItem === day){
           flag = 'pink';
         }
@@ -282,13 +301,13 @@ export default {
     clickDate(date) {
       // console.log(`클릭 했다. ${date}`);
       this.dialog = true;
-      this.selectedItem.day = date;
+      this.selectedItem.startAt = date;
       // const [,, day] = date.split('-');
     },
     onSubmit() {
       this.quizzes.push({...this.selectedItem})
       this.quizzes.sort((a, b) => {
-        return new Date(a.day) - new Date(b.day)
+        return new Date(a.startAt) - new Date(b.startAt)
       })
       this.onClose();
     },
@@ -301,6 +320,7 @@ export default {
       this.dialog = true;
       this.editFlag = index;
       this.selectedItem = {...this.quizzes[index]};
+      console.log(this.selectedItem)
     },
     onSubmitEdit() {
       console.log(this.selectedItem)
@@ -315,13 +335,13 @@ export default {
       */  
       // 1
       
-      let diff = Math.abs(new Date(this.quizzes[0].day).getTime() - new Date(this.quizzes[this.quizzes.length - 1].day).getTime())
+      let diff = Math.abs(new Date(this.quizzes[0].startAt).getTime() - new Date(this.quizzes[this.quizzes.length - 1].startAt).getTime())
       const weeks = Math.ceil( ( Math.ceil(diff/(1000*3600*24) ) ) / 7)
       const problems = this.quizzes.length
 
       const challenge = {
         title : this.challengeTitle,
-        startedAt : new Date(this.quizzes[0].day),
+        startedAt : new Date(this.quizzes[0].startAt),
         img : '',
         weeks,
         problems,
@@ -370,7 +390,11 @@ export default {
     }
   },
   created () {
-    this.selectedItem.day = this.picker;
+    this.selectedItem.startAt = this.picker;
+    for(let i = 1 ; i < 51 ; i++) {
+      this.dropDownItems.push({text : `+ ${i} Day`, value : i})
+      // { text : '당일(23:59 종료)', value : 0}
+    }
   },
   destroyed () {
     console.log('Life Cycle : "Create Challenge.vue" is detropyed');

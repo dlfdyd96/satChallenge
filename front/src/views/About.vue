@@ -51,7 +51,7 @@
       <v-row>
         <v-col>
           <div class="d-flex justify-center mt-15 mb-10 about__divider">
-            <span v-for="style in divider_style" :key="style" class="mx-2 mt-15 mb-10" :style="style"></span>
+            <span v-for="(style, index) in divider_style" :key="index" class="mx-2 mt-15 mb-10" :style="style"></span>
           </div>
         </v-col>
       </v-row>
@@ -74,7 +74,7 @@
       </v-row>
       
       <!-- items -->
-      <v-row v-for="item in howToList" :key="item">
+      <v-row v-for="(item, index) in howToList" :key="index">
         <v-col cols="12">
           <v-card 
             flat
@@ -101,7 +101,7 @@
       <v-row>
         <v-col>
           <div class="d-flex justify-center mt-15 mb-10 about__divider">
-            <span v-for="style in divider_style" :key="style" class="mx-2 mt-15 mb-10" :style="style"></span>
+            <span v-for="(style, index) in divider_style" :key="index" class="mx-2 mt-15 mb-10" :style="style"></span>
           </div>
         </v-col>
       </v-row>
@@ -125,7 +125,7 @@
 
       <v-row>
         <v-col>
-          
+
         </v-col>
       </v-row>
 

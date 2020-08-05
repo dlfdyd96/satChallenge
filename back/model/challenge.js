@@ -17,6 +17,7 @@ const challengeSchema = new mongoose.Schema({
     type: Date,
     default : Date.now
   },
+  // End At
   createdAt : {
     type: Date,
     default: Date.now
