@@ -48,19 +48,29 @@
 
           <!-- false -->
           <v-col v-else
+            cols="12"
             v-for="(item, index) in todayAssignment"
             :key="index"
           >
-            Quiz {{index + 1}}. {{item.title}}
+            <div class="ml-2 mb-2">
+              <strong>문제 {{index + 1}}.</strong>  {{item.title}}
+            </div>
             <div class="ml-2">
+              <strong>설명</strong>
+              <br>
               {{item.description}}
             </div>
-            <div class="d-flex ">
+            <div class="d-flex">
               <v-text-field outlined class="pa-2">
               </v-text-field>
-              <v-btn>
+              <v-btn class="my-5">
                 submit
               </v-btn>
+            </div>
+            <div>
+              <v-divider 
+                v-if="index + 1 !== todayAssignment.length"
+                class="my-2"></v-divider>
             </div>
           </v-col>
         </v-row>
@@ -135,10 +145,32 @@ export default {
     .then(({data : { selectedChallenge , selectedQuizzes}}) => {
       this.selectedChallenge = selectedChallenge;
       this.selectedQuizzes = selectedQuizzes;
+
+      // init
+      this.selectedQuizzes.sort((a, b) => {
+        return new Date(a.startAt) - new Date(b.startAt);
+      })
+
+      // todayAssignment 에 넣기
+      this.selectedQuizzes.sort
+      let todayDate = new Date();
+      this.selectedQuizzes.some((quiz) => {
+        // 시작날짜가 오늘 보다 더 앞선 경우 종료
+        if(new Date(quiz.startAt) > todayDate) {
+          return;
+        }
+        // endAt이 오늘 보다 큰 경우 push
+        if(new Date(quiz.endAt) > todayDate) {
+          this.todayAssignment.push(quiz)
+        }
+      })
     })
     .catch((err) => {
       console.dir(err);
     })
+
+
+    
   },
   computed: {
   },
