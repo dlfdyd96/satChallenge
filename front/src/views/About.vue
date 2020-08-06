@@ -16,10 +16,12 @@
         <span class="title__challenge">
           pecial
         </span>
+        <br class="d-sm d-md-none">
         <span class="title__sat">A</span>
         <span class="title__challenge">
           lgorithm
         </span>
+        <br class="d-sm d-md-none">
         <span class="title__sat">
           T
         </span>

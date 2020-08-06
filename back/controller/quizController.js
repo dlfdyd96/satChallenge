@@ -13,6 +13,19 @@ export const postCreateQuiz = async (req, res, next) => {
     console.log(`challengeId: ${challengeId}`)
     await Promise.all(
       quizzes.map((quiz) => {
+        // startAt 을 Date type으로 변환
+        console.log(quiz)
+        let startAt = new Date(quiz.startAt+'T00:00:00.000+09:00')
+
+        // endAt 을 Date type으로 변환
+        let endAt = new Date(quiz.startAt+'T00:00:00.000+09:00')
+        endAt.setDate(endAt.getDate() + (quiz.endAt))
+
+        quiz.endAt = endAt
+        quiz.startAt = startAt
+        
+        console.log(quiz)
+        
         Quiz.create({
           creator : req.user._id,
           challenge : challengeId,

@@ -84,7 +84,6 @@
                         full-width
                         append-icon="fas fa-caret-down"
                         label="기간"
-                        single-line
                         item-text="text"
                         item-value="value"
                         :rules="[rules.required]"
@@ -244,7 +243,7 @@ export default {
       dialog : false,
       selectedItem : {
         startAt : '',
-        endAt : '',
+        endAt : 1,
         title : '',
         url : '',
         description : '',
@@ -257,8 +256,8 @@ export default {
         //edit
       editFlag : false,
         // drodwon
-      dropDownItems : [{ text : '당일(23:59 종료)', value : 0}],
-      dropdownSelect : { text : '당일(23:59 종료)', value : 0},
+      dropDownItems : [{ text : '당일(23:59 종료)', value : 1}],
+      
 
       // createChallenge
       bodyForm : false,
@@ -341,7 +340,7 @@ export default {
 
       const challenge = {
         title : this.challengeTitle,
-        startedAt : new Date(this.quizzes[0].startAt),
+        startedAt : new Date(this.quizzes[0].startAt + 'T00:00:00.000+09:00'),
         img : '',
         weeks,
         problems,
@@ -392,7 +391,7 @@ export default {
   created () {
     this.selectedItem.startAt = this.picker;
     for(let i = 1 ; i < 51 ; i++) {
-      this.dropDownItems.push({text : `+ ${i} Day`, value : i})
+      this.dropDownItems.push({text : `+ ${i} Day`, value : i + 1})
       // { text : '당일(23:59 종료)', value : 0}
     }
   },
