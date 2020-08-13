@@ -64,6 +64,8 @@
                 prev-icon="fas fa-chevron-left"
               >
               </v-date-picker>
+
+
               <!-- Dialog -->
               <v-dialog
                 v-model="dialog"
@@ -143,6 +145,7 @@
                       </v-container>
                     </v-form>
                   </v-card-text>
+                  
 
                   <!-- 밑에 버튼들 -->
                   <v-card-actions>

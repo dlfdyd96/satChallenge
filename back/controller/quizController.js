@@ -72,12 +72,19 @@ export const postUpdateQuiz = async (req, res, next) => {
     }
   } = req;
   try {
+    let startAt = new Date(quiz.startAt+'T00:00:00.000+09:00')
+
+    // endAt 을 Date type으로 변환
+    let endAt = new Date(quiz.startAt+'T00:00:00.000+09:00')
+    endAt.setDate(endAt.getDate() + (quiz.endAt))
+
+    quiz.endAt = endAt
+    quiz.startAt = startAt
+    
     const existingQuiz = await Quiz.findByIdAndUpdate(
       {_id:quiz.id},
       {
-        title : quiz.title,
-        url : quiz.url,
-        description : quiz.description
+        ...quiz
       })
 
     // const updatedQuiz = await Quiz.findOneAndUpdate({_id : id}, body);
@@ -105,7 +112,7 @@ export const getDeleteQuiz = async (req, res, next) => {
       throw 'Not Author'
     */
 
-    await Quiz.findByIdAndDelete({_id: id});
+    await Quiz.deleteOne({_id: id});
     res.status(200).json({message : "Success Delete Quiz"})
   } catch(err) {
     console.log(err);

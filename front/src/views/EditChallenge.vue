@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home my-10">
     <v-form
       ref="bodyForm"
       v-model="bodyForm"
@@ -64,6 +64,8 @@
                 prev-icon="fas fa-chevron-left"
               >
               </v-date-picker>
+
+
               <!-- Dialog -->
               <v-dialog
                 v-model="dialog"
@@ -73,7 +75,23 @@
                 <v-card
                   rounded
                 >
-                  <v-card-title><span class="text-h4 ma-3">{{selectedDay}}</span></v-card-title>
+                  <v-card-title>
+                    <span class="text-md-h5 text-h6">{{selectedDay}}</span>
+                    <span class="grey--text mx-4">~</span>
+                    <!-- dropdown -->
+                    <span>
+                      <v-select
+                        v-model="selectedItem.endAt"
+                        :items="dropDownItems"
+                        full-width
+                        append-icon="fas fa-caret-down"
+                        label="기간"
+                        item-text="text"
+                        item-value="value"
+                        :rules="[rules.required]"
+                      ></v-select>
+                    </span>
+                  </v-card-title>
                   <v-divider class="mx-4"></v-divider>
                   <v-card-text class="black--text ">
                     <v-form
@@ -126,6 +144,7 @@
                     </v-form>
                   </v-card-text>
 
+
                   <!-- 밑에 버튼들 -->
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -165,7 +184,7 @@
           >
             <v-row>
               <v-col
-                v-if="item.day === picker"
+                v-if="item.startAt === picker"
               >
                 <v-card>
                   <v-card-title>
@@ -225,7 +244,8 @@ export default {
       // dialog
       dialog : false,
       selectedItem : {
-        day : '',
+        startAt : '',
+        endAt : 1,
         title : '',
         url : '',
         description : '',
@@ -237,6 +257,8 @@ export default {
       },
         //edit
       editFlag : false,
+        // drodwon
+      dropDownItems : [{ text : '당일(23:59 종료)', value : 1}],
 
       // createChallenge
       bodyForm : false,
@@ -252,7 +274,7 @@ export default {
       return this.dateFunctionEvents;
     },
     selectedDay() {
-      const [,month,day] = this.selectedItem.day.split('-');
+      const [,month,day] = this.selectedItem.startAt.split('-');
       return `${month}월 ${day}일`
     }
   },
@@ -274,7 +296,7 @@ export default {
       let flag = false;
 
       this.quizzes.forEach(quiz => {
-        let [yearItem, monthItem, dayItem] = quiz.day.split('-');
+        let [yearItem, monthItem, dayItem] = quiz.startAt.split('-');
         if(yearItem === year && monthItem === month && dayItem === day){
           // return ['red']
           flag = 'pink';
@@ -285,13 +307,13 @@ export default {
     clickDate(date) {
       // console.log(`클릭 했다. ${date}`);
       this.dialog = true;
-      this.selectedItem.day = date;
+      this.selectedItem.startAt = date;
       // const [,, day] = date.split('-');
     },
     onSubmit() {
       this.quizzes.push({...this.selectedItem});
       this.quizzes.sort((a, b) => {
-        return new Date(a.day) - new Date(b.day)
+        return new Date(a.startAt) - new Date(b.startAt)
       });
       this.addList.push({...this.selectedItem});
       this.onClose();
@@ -320,13 +342,13 @@ export default {
       */  
       // 1
       
-      let diff = Math.abs(new Date(this.quizzes[0].day).getTime() - new Date(this.quizzes[this.quizzes.length - 1].day).getTime())
+      let diff = Math.abs(new Date(this.quizzes[0].startAt).getTime() - new Date(this.quizzes[this.quizzes.length - 1].startAt).getTime())
       const weeks = Math.ceil( ( Math.ceil(diff/(1000*3600*24) ) ) / 7)
       const problems = this.quizzes.length
 
       const challenge = {
         title : this.challengeTitle,
-        startedAt : new Date(this.quizzes[0].day),
+        startedAt : new Date(this.quizzes[0].startAt),
         img : '',
         weeks,
         problems,
@@ -344,39 +366,32 @@ export default {
         return;
       })
 
-      // 2. 모든 문제들을 challenge id에 연결하여 db register
-      // 2020-07-13 16:46
-      /* await axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
-        {
-          quizzes : this.quizzes, 
-          challengeId
-        }
-      )
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.dir(err)
-        let msg = err.response.data.err.errors
-        if(msg)
-          window.alert(msg)
-      }) */
+      console.log(this.addList, this.challengeId)
       await Promise.all(
-        [ axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, 
+        [ 
+          // 1. 새롭게 추가된 quiz array
+          axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/create`, 
             {
               quizzes : this.addList, 
               challengeId : this.challengeId
-            }).catch(err => err), 
-            ...this.updateList.map(item => {
-              return axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
-                {
-                  quiz : item, 
-                  challengeId : this.challengeId
-                }).catch(err => err)
-            }),
-            ...this.deleteList.map(item=> {
-              return axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, { id : item._id }).catch(err => err)
             })
+            .then(() => { console.log('1. 새롭게 추가된 quiz array 성공')})
+            .catch(err => err), 
+          // 2. 수정된 quiz array
+          ...this.updateList.map(item => {
+            return axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/update`, 
+              {
+                quiz : item, 
+              })
+              .then(() => { console.log('2. 수정된 quiz array 성공')})
+              .catch(err => err)
+          }),
+          // 3. 삭제된 quiz array
+          ...this.deleteList.map(item => {
+            return axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/quiz/${item.id}/delete`)
+              .then(() => { console.log('3. 삭제된 quiz array 성공')})
+              .catch(err => err)
+          })
         ]
       ).then(res => {
         console.log(`sucess ${res}`)
@@ -388,14 +403,18 @@ export default {
       this.$router.push('/');
     },
     onDelete(index) {
-      console.log(index);
-      if(this.quizzes[index]._id !== undefined)
+      if(this.quizzes[index]._id !== undefined){
         this.deleteList.push({id : this.quizzes[index]._id});
+      }
       this.quizzes.splice(index, 1);
     }
   },
   created () {
-    this.selectedItem.day = this.picker;
+    this.selectedItem.startAt = this.picker;
+    for(let i = 1 ; i < 51 ; i++) {
+      this.dropDownItems.push({text : `+ ${i} Day`, value : i + 1})
+      // { text : '당일(23:59 종료)', value : 0}
+    }
     // console.log(this.$route.params.challengeId)
     this.challengeId = this.$route.params.challengeId;
 
@@ -408,7 +427,16 @@ export default {
       
       // 퀴즈들
       this.quizzes = selectedQuizzes
-      this.quizzes.forEach(item => item.day = item.day.substr(0, 10))
+      this.quizzes.forEach(item => {
+        item.startAt = item.startAt.substr(0, 10);
+        item.endAt = (new Date(item.startAt) - new Date(item.endAt.substr(0, 10))) / (1000*3600*24);
+      })
+
+      // sort
+      
+      this.quizzes.sort((a, b) => {
+        return new Date(a.startAt) - new Date(b.startAt)
+      });
     })
     .catch((err) => {
       console.dir(err.response);

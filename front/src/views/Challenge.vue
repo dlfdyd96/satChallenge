@@ -60,13 +60,17 @@
               <br>
               {{item.description}}
             </div>
+            
             <div class="d-flex">
-              <v-text-field outlined class="pa-2">
-              </v-text-field>
-              <v-btn class="my-5">
-                submit
-              </v-btn>
+              <v-form>
+                <v-text-field outlined class="pa-2">
+                </v-text-field>
+                <v-btn class="my-5">
+                  submit
+                </v-btn>  
+              </v-form>
             </div>
+
             <div>
               <v-divider 
                 v-if="index + 1 !== todayAssignment.length"
