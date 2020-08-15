@@ -63,11 +63,11 @@
             
             <div class="d-flex">
               <v-form>
-                <v-text-field outlined class="pa-2">
+                <v-text-field outlined class="pa-2" v-model="item.submit">
                 </v-text-field>
-                <v-btn class="my-5">
+                <v-btn class="my-5" @click="onSubmit(index)">
                   submit
-                </v-btn>  
+                </v-btn>
               </v-form>
             </div>
 
@@ -146,7 +146,14 @@ export default {
     let challengeId = this.$route.params.id
     
     axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/challenge/${challengeId}`)
-    .then(({data : { selectedChallenge , selectedQuizzes}}) => {
+    .then((
+      {
+        data : { 
+          selectedChallenge, 
+          selectedQuizzes
+        }
+      }
+    ) => {
       this.selectedChallenge = selectedChallenge;
       this.selectedQuizzes = selectedQuizzes;
 
@@ -165,7 +172,7 @@ export default {
         }
         // endAt이 오늘 보다 큰 경우 push
         if(new Date(quiz.endAt) > todayDate) {
-          this.todayAssignment.push(quiz)
+          this.todayAssignment.push({...quiz, submit: ''})
         }
       })
     })
@@ -179,6 +186,23 @@ export default {
   computed: {
   },
   methods: {
+    onSubmit(index) {
+      // this.todayAssignment[index].submit
+      console.log(this.todayAssignment[index])
+      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/submit-quiz/create`, 
+      { // body
+        content : this.todayAssignment[index].submit,
+        quiz : this.todayAssignment[index]._id,
+      })
+      .then((res) => {
+        window.alert('제출 성공!');
+        console.dir(res);
+      })
+      .catch((err) => {
+        window.alert('에러 발생!');
+        console.dir(err);
+      })
+    }
   },
 }
 </script>
