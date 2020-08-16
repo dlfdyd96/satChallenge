@@ -1,5 +1,5 @@
 import Quiz from '../model/Quiz';
-import mongoose from 'mongoose';
+import SubmitQuiz from '../model/SubmitQuiz';
 
 // C
 export const postCreateQuiz = async (req, res, next) => {
@@ -111,7 +111,8 @@ export const getDeleteQuiz = async (req, res, next) => {
     if(selectedQuiz.creator !== user._id)
       throw 'Not Author'
     */
-
+   
+    await SubmitQuiz.deleteMany({quiz: id})
     await Quiz.deleteOne({_id: id});
     res.status(200).json({message : "Success Delete Quiz"})
   } catch(err) {

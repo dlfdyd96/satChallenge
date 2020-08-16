@@ -63,9 +63,17 @@
             
             <div class="d-flex">
               <v-form>
-                <v-text-field outlined class="pa-2" v-model="item.submit">
-                </v-text-field>
-                <v-btn class="my-5" @click="onSubmit(index)">
+                <v-text-field 
+                  outlined 
+                  class="pa-2" 
+                  v-model="todayAssignment[index].submission.contents"
+                ></v-text-field>
+                <v-btn 
+                  v-if="todayAssignment[index].submission.hasOwnProperty('creator')" 
+                  class="my-5" 
+                  @click="onEdit(index)"
+                >edit</v-btn>
+                <v-btn v-else class="my-5" @click="onSubmit(index)">
                   submit
                 </v-btn>
               </v-form>
@@ -163,7 +171,6 @@ export default {
       })
 
       // todayAssignment 에 넣기
-      this.selectedQuizzes.sort
       let todayDate = new Date();
       this.selectedQuizzes.some((quiz) => {
         // 시작날짜가 오늘 보다 더 앞선 경우 종료
@@ -172,30 +179,60 @@ export default {
         }
         // endAt이 오늘 보다 큰 경우 push
         if(new Date(quiz.endAt) > todayDate) {
-          this.todayAssignment.push({...quiz, submit: ''})
+          this.todayAssignment.push({ 
+            ...quiz,
+            submission: {contents : ''}
+          })
         }
       })
+
+      return Promise.all(
+        this.todayAssignment.map((quiz) => {
+          return axios.get(`${process.env.VUE_APP_SERVER_DOMAIN}/submit-quiz/${quiz._id}`)
+        })
+      )
+
+    })
+    .then((res) => {
+      res.forEach(item => {
+        /* 하.. 여기 으카노 ㅡㅡ */
+        if (item.data.selectedSubmitQuiz !== null) {
+          this.todayAssignment.find(element => element._id === item.data.quizId)['submission'] = item.data.selectedSubmitQuiz;
+        }
+      })
+      console.log(this.todayAssignment)
     })
     .catch((err) => {
       console.dir(err);
-    })
-
-
-    
+    })    
   },
   computed: {
   },
   methods: {
     onSubmit(index) {
-      // this.todayAssignment[index].submit
-      console.log(this.todayAssignment[index])
       axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/submit-quiz/create`, 
       { // body
-        content : this.todayAssignment[index].submit,
-        quiz : this.todayAssignment[index]._id,
+        contents : this.todayAssignment[index].submission.contents,
+        quiz : this.todayAssignment[index]._id
       })
       .then((res) => {
         window.alert('제출 성공!');
+        console.dir(res);
+        this.todayAssignment[index].submission = res.data.newSubmitQuiz
+      })
+      .catch((err) => {
+        window.alert('에러 발생!');
+        console.dir(err);
+      })
+    },
+    onEdit(index) {
+      const quizId = this.todayAssignment[index]._id
+      axios.post(`${process.env.VUE_APP_SERVER_DOMAIN}/submit-quiz/${quizId}/update`, 
+      { // body
+        ...this.todayAssignment[index].submission,
+      })
+      .then((res) => {
+        window.alert('수정 성공!');
         console.dir(res);
       })
       .catch((err) => {

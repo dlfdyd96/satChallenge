@@ -13,8 +13,11 @@ submitQuizRouter.post(routes.createSubmitQuiz,
   postCreateSubmitQuiz
 )
 
-// [post] Read Submit Quiz
-submitQuizRouter.get(routes.readSubmitQuiz(), getReadSubmitQuiz)
+// [get] Read Submit Quiz
+submitQuizRouter.get(routes.readSubmitQuiz(),  
+  passport.authenticate('jwt', {session : false}),
+  getReadSubmitQuiz
+)
 
 // [post] Update Submit Quiz
 submitQuizRouter.post(routes.updateSubmitQuiz(), 

@@ -3,11 +3,13 @@ import SubmitQuiz from '../model/SubmitQuiz';
 // C
 export const postCreateSubmitQuiz = async (req, res, next) => {
   const {
-    body, user
+    body
   } = req;
   try {
+    // 존재하는 경우
+
     const newSubmitQuiz = await SubmitQuiz.create({
-      creator : req.user._id,
+      creator: req.user._id,
       ...body
       // title,
       // weeks,
@@ -20,71 +22,71 @@ export const postCreateSubmitQuiz = async (req, res, next) => {
       message: "Success Create submitQuiz",
       newSubmitQuiz
     })
-  } catch(err) {
+  } catch (err) {
     console.log(err);
-    res.status(400).json({err});
+    res.status(400).json({ err });
   }
 }
 
 // R
 export const getReadSubmitQuiz = async (req, res, next) => {
-  const { 
-      params: { id }
+  const {
+    params: { id }
   } = req;
   try {
-      const selectedSubmitQuiz = await SubmitQuiz.findById(id)
-          .populate("creator") // 사용자 정보 얻어오기
+    const quizId = id;
+    const selectedSubmitQuiz = await SubmitQuiz.findOne({quiz : quizId, creator: req.user._id})
 
-      res.status(200).json({
-          message : "Success Read submitQuiz",
-          selectedSubmitQuiz,
-      })
-      // next();
-  } catch(err) {
-      console.log(`Read submitQuiz Error : ${err}`);
-      res.status(400).json({err});
+    res.status(200).json({
+      message: "Success Read submitQuiz",
+      selectedSubmitQuiz,
+      quizId,
+    })
+    // next();
+  } catch (err) {
+    console.log(`Read submitQuiz Error : ${err}`);
+    res.status(400).json({ err });
   }
 }
 
 // U
 export const postUpdateSubmitQuiz = async (req, res, next) => {
   const {
-      body,
-      params : {id},
-      user
+    body,
+    params: { id },
   } = req;
   try {
-      // console.log({title, description, routes, date, id});
-      const selectedSubmitQuiz = await SubmitQuiz.findById({_id:id});
-      if(selectedSubmitQuiz.creator !== user._id)
-        throw 'Not Author'
+    // console.log({title, description, routes, date, id});
+    const selectedSubmitQuiz = await SubmitQuiz.findById({ _id: body._id });
+    if (selectedSubmitQuiz.creator+'' !== req.user._id+'')
+      throw 'Not Author'
 
-      await SubmitQuiz.findOneAndUpdate({_id : id}, body);
-      res.status(200).json ({
-          message : "Success Update submitQuiz",
-      })
-  } catch(err){ 
-      console.log(`Failed to Update submitQuiz ${err}`);
-      res.status(400).json({
-          message : "Failed to Update submitQuiz",
-          error : err
-      });   
+    await SubmitQuiz.findOneAndUpdate({ _id: body._id }, { contents : body.contents});
+    res.status(200).json({
+      message: "Success Update submitQuiz",
+    })
+  } catch (err) {
+    console.log(`Failed to Update submitQuiz ${err}`);
+    res.status(400).json({
+      message: "Failed to Update submitQuiz",
+      error: err
+    });
   }
 }
 
-// D
+// D : 안 쓸 것 같긴 해
 export const getDeleteSubmitQuiz = async (req, res, next) => {
   const {
-    params : { id }
+    params: { id }
   } = req;
   try {
-    const selectedSubmitQuiz = await SubmitQuiz.findById({_id:id});
-    if(selectedSubmitQuiz.creator !== user._id)
+    const selectedSubmitQuiz = await SubmitQuiz.findById({ _id: id });
+    if (selectedSubmitQuiz.creator !== req.user._id)
       throw 'Not Author'
-    const deleteSubmitQuiz = await SubmitQuiz.findByIdAndDelete({_id: id});
-    res.status(200).json({message : "Success Delete submitQuiz"})
-  } catch(err) {
+    const deleteSubmitQuiz = await SubmitQuiz.findByIdAndDelete({ _id: id });
+    res.status(200).json({ message: "Success Delete submitQuiz" })
+  } catch (err) {
     console.log(err);
-    res.status(400).json({err})
+    res.status(400).json({ err })
   }
 }

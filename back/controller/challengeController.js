@@ -1,5 +1,6 @@
 import Challenge from '../model/Challenge';
 import Quiz from '../model/Quiz';
+import SubmitQuiz from '../model/SubmitQuiz';
 import User from '../model/User';
 
 export const getAllChallenges =  async (req, res, next) => {
@@ -103,8 +104,25 @@ export const getDeleteChallenge = async (req, res, next) => {
     if(selectedChallenge.creator+'' !== user._id+'')
       throw 'Not Author'
 
-    await Challenge.findByIdAndDelete({_id: id});
-    await Quiz.deleteMany({challenge : id});
+
+    
+    await Quiz.find({ challenge: id }).exec()
+    .then((result) => {
+      return Promise.all([...result.map(element => {
+        return SubmitQuiz.deleteMany({quiz : element._id})
+      })])
+    })
+    .then(() => {
+      return Quiz.deleteMany({challenge: id})
+    })
+    .then(() => {
+      return Challenge.deleteOne({_id: id})
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+    // await Quiz.deleteMany({challenge : id});
+    // await Challenge.findByIdAndDelete({_id: id});
     res.status(200).json({message : "Success Delete Challenge"})
   } catch(err) {
     console.log(err);

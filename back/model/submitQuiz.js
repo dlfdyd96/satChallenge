@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const SubmitQuizSchema = new mongoose.Schema({
-  url : String,
+  contents : String,
   createdAt: {
     type: Date,
     default: Date.now
